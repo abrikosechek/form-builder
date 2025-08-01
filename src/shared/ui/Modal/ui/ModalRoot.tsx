@@ -1,4 +1,4 @@
-import styles from './Modal.module.scss'
+import styles from './ModalRoot.module.scss'
 import { useModalStore } from '@/shared/model/Modal'
 import { MouseEvent, ReactNode } from 'react'
 

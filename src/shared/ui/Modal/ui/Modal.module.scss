@@ -1,23 +1,6 @@
-.modalRoot {
-  position: fixed;
-  left: 0;
-  top: 0;
-  z-index: 5;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100vw;
-  height: 100dvh;
-  padding: 40px;
-  background: rgba(0, 0, 0, 0.6);
-  backdrop-filter: blur(10px);
-  overflow: auto;
-}
-
 .modal {
   width: 100%;
   max-width: 600px;
-  height: 400px;
   border: 2px solid #29313d;
 
   &__header {
