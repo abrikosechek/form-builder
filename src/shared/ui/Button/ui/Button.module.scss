@@ -6,9 +6,9 @@
   gap: 8px;
   padding: 8px 12px;
   background: transparent;
-  border: 2px dashed var(--primary);
+  border-width: 2px;
+  border-style: dashed;
   border-radius: 12px;
-  color: var(--primary);
   fill: currentColor;
   stroke: currentColor;
   font-size: 18px;
@@ -27,5 +27,19 @@
   & > svg {
     width: 20px;
     height: 20px;
+  }
+
+  // colors
+  &.primary {
+    color: var(--primary);
+    border-color: var(--primary);
+  }
+  &.success {
+    color: var(--success);
+    border-color: var(--success);
+  }
+  &.grey {
+    color: var(--text-inactive);
+    border-color: var(--text-inactive);
   }
 }

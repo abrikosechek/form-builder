@@ -7,9 +7,11 @@ const meta = {
   component: Button,
   argTypes: {
     wide: { control: 'boolean' },
+    color: { control: 'radio', options: ['primary', 'success', 'grey'] },
   },
   args: {
     wide: false,
+    color: 'primary',
   },
 } satisfies Meta<typeof Button>
 export default meta

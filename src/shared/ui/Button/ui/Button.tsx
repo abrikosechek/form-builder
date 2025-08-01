@@ -5,12 +5,18 @@ interface Props {
   children: ReactNode
   wide?: boolean
   onClick?: (e: MouseEvent<HTMLButtonElement>) => any
+  color?: 'primary' | 'success' | 'grey'
 }
 
-export const Button = ({ children, wide = false, onClick }: Props) => {
+export const Button = ({
+  children,
+  wide = false,
+  color = 'primary',
+  onClick,
+}: Props) => {
   return (
     <button
-      className={`${styles.button} ${wide ? styles.wide : ''}`}
+      className={`${styles.button} ${wide ? styles.wide : ''} ${styles[color]}`}
       onClick={onClick}
     >
       {children}
