@@ -7,9 +7,7 @@ export const RootLayout = () => {
   return (
     <div className={styles.layout}>
       <Header />
-
       <Aside />
-
       <main className={`${styles.main} container`}>
         <Outlet />
       </main>
