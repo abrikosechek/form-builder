@@ -1,14 +1,18 @@
 import styles from './Button.module.scss'
-import type { ReactNode } from 'react'
+import type { MouseEvent, ReactNode } from 'react'
 
 interface Props {
   children: ReactNode
   wide?: boolean
+  onClick?: (e: MouseEvent<HTMLButtonElement>) => any
 }
 
-export const Button = ({ children, wide = false }: Props) => {
+export const Button = ({ children, wide = false, onClick }: Props) => {
   return (
-    <button className={`${styles.button} ${wide ? styles.wide : ''}`}>
+    <button
+      className={`${styles.button} ${wide ? styles.wide : ''}`}
+      onClick={onClick}
+    >
       {children}
     </button>
   )
