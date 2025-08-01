@@ -1,23 +1,45 @@
 import type { Meta, StoryObj } from '@storybook/react'
 import { Input } from './Input'
-import { ComponentProps, useState } from 'react'
+import { useEffect, useState } from 'react'
 
 const meta = {
   title: 'Input',
   component: Input,
+  argTypes: {
+    placeholder: {
+      control: 'text',
+    },
+    value: {
+      control: 'text',
+    },
+    onChange: {
+      action: 'changed',
+    },
+  },
+  args: {
+    value: '',
+    placeholder: '',
+  },
 } satisfies Meta<typeof Input>
 export default meta
 
-type Story = StoryObj<ComponentProps<typeof Input>>
+type Story = StoryObj<typeof Input>
 const Template: Story = {
   render: (args) => {
-    const [value, setValue] = useState('')
+    const [value, setValue] = useState(args.value || '')
+
+    useEffect(() => {
+      setValue(args.value)
+    }, [args.value])
 
     return (
       <Input
         {...args}
         value={value}
-        onChange={(e) => setValue(e.target.value)}
+        onChange={(e) => {
+          setValue(e.target.value)
+          args.onChange(e)
+        }}
       />
     )
   },
@@ -25,11 +47,4 @@ const Template: Story = {
 
 export const Default: Story = {
   ...Template,
-}
-
-export const Placeholder: Story = {
-  ...Template,
-  args: {
-    placeholder: 'Placeholder text',
-  },
 }

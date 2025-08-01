@@ -6,6 +6,10 @@ const config: StorybookConfig = {
     name: '@storybook/react-vite',
     options: {},
   },
+  typescript: {
+    check: true,
+    reactDocgen: 'react-docgen-typescript',
+  },
   addons: ['@storybook/addon-themes'],
 }
 

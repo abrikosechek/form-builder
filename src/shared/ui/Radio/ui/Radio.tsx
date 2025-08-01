@@ -5,7 +5,7 @@ import { RadioGroup } from 'radix-ui'
 
 interface Props {
   name: string
-  title?: string
+  title?: string | null
   children: ReactNode
   value?: string | null | undefined
   onChange?: (e: string) => void

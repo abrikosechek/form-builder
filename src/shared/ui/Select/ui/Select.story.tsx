@@ -39,23 +39,3 @@ export const Default: Story = {
     ],
   },
 }
-
-export const Label: Story = {
-  ...Template,
-  args: {
-    options: [
-      {
-        label: 'Option 1',
-        value: 'opt1',
-      },
-      {
-        label: 'Option 2',
-        value: 'opt2',
-      },
-      {
-        label: 'Option 3',
-        value: 'opt3',
-      },
-    ],
-  },
-}

@@ -1,15 +1,30 @@
 import { Meta, StoryObj } from '@storybook/react/*'
+import { useState } from 'react'
 import { Radio } from './Radio'
 import { RadioItem } from './RadioItem'
-import { ComponentProps, useState } from 'react'
+
+// name: string
+// title?: string
+// children: ReactNode
+// value?: string | null | undefined
+// onChange?: (e: string) => void
 
 const meta = {
   title: 'Radio',
   component: Radio,
+  argTypes: {
+    name: { control: 'text' },
+    title: { control: 'text' },
+    onChange: { action: 'changed' },
+  },
+  args: {
+    name: 'radio',
+    title: null,
+  },
 } satisfies Meta<typeof Radio>
 export default meta
 
-type Story = StoryObj<ComponentProps<typeof Radio>>
+type Story = StoryObj<typeof Radio>
 
 const Template: Story = {
   render: (args) => {
@@ -21,7 +36,10 @@ const Template: Story = {
           {...args}
           name="radio"
           value={value}
-          onChange={(e) => setValue(e)}
+          onChange={(e) => {
+            setValue(e)
+            args.onChange?.(e)
+          }}
         >
           <RadioItem value={'first'} />
           <RadioItem value={'second'} />
@@ -35,40 +53,4 @@ const Template: Story = {
 
 export const Default: Story = {
   ...Template,
-}
-
-export const Title: Story = {
-  ...Template,
-  args: {
-    title: 'Radio input title',
-  },
-}
-
-export const Label: Story = {
-  render: () => {
-    const [value, setValue] = useState<string>('')
-    const [labelPrefix, setLabelPrefix] = useState<string>('')
-
-    return (
-      <>
-        <p>Label prefix:</p>
-        <input
-          type="text"
-          placeholder="type here..."
-          value={labelPrefix}
-          onChange={(e) => setLabelPrefix(e.target.value)}
-        />
-
-        <Radio name="radio" value={value} onChange={(e) => setValue(e)}>
-          <RadioItem value={'first'} label={`${labelPrefix}first`} />
-          <RadioItem value={'second'} label={`${labelPrefix}second`} />
-          <RadioItem value={'third'} label={`${labelPrefix}third`} />
-        </Radio>
-        <p>Choosed option: {value}</p>
-      </>
-    )
-  },
-  args: {
-    title: 'Radio input title',
-  },
 }

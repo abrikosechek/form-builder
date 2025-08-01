@@ -2,7 +2,7 @@ import { ChangeEvent } from 'react'
 import inputsStyles from '@/shared/styles/inputs.module.scss'
 
 interface Props {
-  placeholder?: string
+  placeholder?: string | null
   value: string
   onChange: (e: ChangeEvent<HTMLInputElement>) => any
 }
