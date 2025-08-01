@@ -1,0 +1,14 @@
+.radioContainer {
+  height: unset;
+}
+
+.title {
+  margin-bottom: 14px;
+}
+
+.radioGroup {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+}

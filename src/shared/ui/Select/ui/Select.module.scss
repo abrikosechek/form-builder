@@ -1,0 +1,43 @@
+.selectTrigger {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  width: 400px;
+  cursor: pointer;
+  user-select: none;
+
+  & > svg {
+    width: 30px;
+    height: 30px;
+    fill: currentColor;
+    stroke: currentColor;
+  }
+
+  &[aria-expanded='true'] {
+    border-radius: 8px 8px 0 0;
+    border-bottom: 0px;
+
+    & > svg {
+      transform: rotateX(180deg);
+    }
+  }
+}
+
+.selectContent {
+  width: 400px;
+  height: unset;
+  padding: 0;
+  border-radius: 0 0 8px 8px;
+  user-select: none;
+}
+
+.selectItem {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  height: 50px;
+  padding: 13px;
+  font-size: 22px;
+  cursor: pointer;
+}
