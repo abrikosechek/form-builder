@@ -1,7 +1,8 @@
+import { ReactNode } from 'react'
 import { create } from 'zustand'
 
 type Modal = {
-  el: string
+  el: ReactNode
   data?: any
 }
 

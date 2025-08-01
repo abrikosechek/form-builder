@@ -2,13 +2,14 @@ import { Button } from '@/shared/ui'
 import styles from './NoForms.module.scss'
 import { PlusIcon } from '@radix-ui/react-icons'
 import { useModalStore } from '@/shared/model/Modal'
+import { CreateFormModal } from '@/modals/CreateForm'
 
 export const NoForms = () => {
   const setModal = useModalStore((state) => state.setModal)
 
   const openCreateFormModal = () => {
     setModal({
-      el: 'CreateFormModal',
+      el: <CreateFormModal />,
     })
   }
 
