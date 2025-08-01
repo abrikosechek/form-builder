@@ -1,7 +1,7 @@
 import './styles/main.scss'
 import { MainProviders } from './MainProviders'
 import { useModalStore } from '@/shared/model/Modal'
-import { Modal } from '@/shared/ui/Modal/ui/Modal'
+import { ModalRoot } from '@/shared/ui/Modal'
 
 const App = () => {
   const modal = useModalStore((state) => state.modal)
@@ -10,7 +10,7 @@ const App = () => {
     <>
       <MainProviders />
 
-      {modal && <Modal>{modal.el}</Modal>}
+      {modal && <ModalRoot>{modal.el}</ModalRoot>}
     </>
   )
 }

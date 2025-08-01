@@ -2,8 +2,8 @@ import { ReactNode } from 'react'
 import { create } from 'zustand'
 
 type Modal = {
+  title: string
   el: ReactNode
-  data?: any
 }
 
 interface ModalStore {
