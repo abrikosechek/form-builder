@@ -11,6 +11,14 @@ const App = () => {
       </header>
 
       <div className={`${styles.aside} container`}>
+        <div className={styles.aside__header}>
+          <p className={styles.aside__title}>Your forms</p>
+
+          <Button>
+            <PlusIcon />
+          </Button>
+        </div>
+        <div className={styles.aside__list}></div>
       </div>
 
       <main className={`${styles.main} container`}>
