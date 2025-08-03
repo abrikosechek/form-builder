@@ -24,7 +24,7 @@
   &__list {
     display: flex;
     flex-direction: column;
-    justify-content: flex-start;
+    align-items: flex-start;
     gap: 12px;
     width: 100%;
     height: 100%;
@@ -36,4 +36,14 @@
   color: var(--text-inactive);
   text-decoration: none;
   font-size: 24px;
+  transition: 0.2s;
+
+  &:hover {
+    color: var(--text);
+  }
+
+  &:global(.active) {
+    color: var(--text);
+    text-decoration: underline;
+  }
 }
