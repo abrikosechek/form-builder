@@ -2,19 +2,26 @@ import styles from './Checkbox.module.scss'
 import { Switch } from 'radix-ui'
 import type { ChangeEvent } from 'react'
 
-interface Props {
-  checked: boolean
-  onChange: (e: boolean) => void
+type Props = {
   label?: string | null
+  disabled?: false
+  checked?: boolean
+  onChange?: (e: boolean) => void
 }
 
-export const Checkbox = ({ checked, onChange, label }: Props) => {
+export const Checkbox = ({
+  label,
+  disabled = false,
+  checked,
+  onChange,
+}: Props) => {
   return (
     <label className={styles.label}>
       <Switch.Root
         className={styles.switch}
         checked={checked}
-        onCheckedChange={(e) => onChange(e)}
+        onCheckedChange={(e) => onChange && onChange(e)}
+        disabled={disabled}
       >
         <Switch.Thumb className={styles.switch__thumb} />
       </Switch.Root>

@@ -26,7 +26,7 @@ export default meta
 type Story = StoryObj<typeof Input>
 const Template: Story = {
   render: (args) => {
-    const [value, setValue] = useState(args.value || '')
+    const [value, setValue] = useState<string | undefined>(args.value || '')
 
     useEffect(() => {
       setValue(args.value)
@@ -38,7 +38,7 @@ const Template: Story = {
         value={value}
         onChange={(e) => {
           setValue(e.target.value)
-          args.onChange(e)
+          args.onChange?.(e)
         }}
       />
     )

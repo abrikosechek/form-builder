@@ -30,7 +30,7 @@ const Template = (args: ComponentProps<typeof Checkbox>) => {
       checked={value}
       onChange={(e) => {
         setValue(e)
-        args.onChange(e)
+        args.onChange?.(e)
       }}
     />
   )
