@@ -1,4 +1,10 @@
-import { Component1Icon, PlusIcon } from '@radix-ui/react-icons'
+import {
+  Component1Icon,
+  Component2Icon,
+  PlusIcon,
+  StackIcon,
+  TokensIcon,
+} from '@radix-ui/react-icons'
 import styles from './ComponentCard.module.scss'
 import { ReactNode } from 'react'
 
@@ -15,7 +21,7 @@ export const ComponentCard = ({ children, name }: Props) => {
       </button>
 
       <div className={styles.componentCard__icon}>
-        <Component1Icon />
+        <StackIcon />
       </div>
 
       <p className={styles.componentCard__name}>&lt;{name} /&gt;</p>

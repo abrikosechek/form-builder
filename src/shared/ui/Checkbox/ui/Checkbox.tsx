@@ -4,7 +4,7 @@ import type { ChangeEvent } from 'react'
 
 type Props = {
   label?: string | null
-  disabled?: false
+  disabled?: boolean
   checked?: boolean
   onChange?: (e: boolean) => void
 }

@@ -1,6 +1,6 @@
 import styles from './index.module.scss'
 import { ComponentCard } from './ui'
-import { Input } from '@/shared/ui'
+import { Checkbox, Input } from '@/shared/ui'
 
 export const FormPage = () => {
   return (
@@ -15,6 +15,9 @@ export const FormPage = () => {
         <div className={styles.components__list}>
           <ComponentCard name="Input">
             <Input disabled={true} />
+          </ComponentCard>
+          <ComponentCard name="Input">
+            <Checkbox disabled={true} />
           </ComponentCard>
         </div>
       </section>
