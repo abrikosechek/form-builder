@@ -9,15 +9,21 @@ type Option = {
 }
 
 interface Props {
-  value: string
-  onChange: (e: string) => any
+  value?: string
+  onChange?: (e: string) => any
   options: Option[]
+  disabled?: boolean
 }
 
-export const Select = ({ value, onChange, options }: Props) => {
+export const Select = ({
+  value,
+  onChange,
+  options,
+  disabled = false,
+}: Props) => {
   return (
     <DropdownMenu.Root>
-      <DropdownMenu.Trigger asChild>
+      <DropdownMenu.Trigger asChild disabled={disabled}>
         <button className={`${styles.selectTrigger} ${inputsStyles.input}`}>
           <p>{value || 'Select'}</p>
           <CaretDownIcon />
