@@ -4,14 +4,22 @@ import type { ReactNode } from 'react'
 import { RadioGroup } from 'radix-ui'
 
 interface Props {
-  name: string
+  name?: string
   title?: string | null
-  children: ReactNode
+  children?: ReactNode
   value?: string | null | undefined
+  disabled?: boolean
   onChange?: (e: string) => void
 }
 
-export const Radio = ({ title, name, value, onChange, children }: Props) => {
+export const Radio = ({
+  title,
+  name,
+  value,
+  onChange,
+  disabled = false,
+  children,
+}: Props) => {
   console.log
 
   return (
@@ -23,6 +31,7 @@ export const Radio = ({ title, name, value, onChange, children }: Props) => {
         name={name}
         value={value}
         onValueChange={(e) => (onChange ? onChange(e) : null)}
+        disabled={disabled}
       >
         {children}
       </RadioGroup.Root>
