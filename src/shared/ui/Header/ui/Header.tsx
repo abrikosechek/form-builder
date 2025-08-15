@@ -1,9 +1,12 @@
+import { Link } from 'react-router'
 import styles from './Header.module.scss'
 
 export const Header = () => {
   return (
     <header className={`${styles.header} container`}>
-      <p className={styles.header__logo}>FormBuilder</p>
+      <Link className={styles.header__logo} to="/">
+        FormBuilder
+      </Link>
     </header>
   )
 }

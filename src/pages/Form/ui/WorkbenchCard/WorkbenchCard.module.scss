@@ -1,0 +1,128 @@
+.workbenchCard {
+  width: 100%;
+  max-width: 600px;
+  background: var(--bg-light);
+  border: 2px solid var(--text);
+  border-radius: 12px;
+  user-select: none;
+
+  &__header {
+    display: flex;
+    width: 100%;
+    height: 60px;
+    padding: 0 20px;
+  }
+
+  &__drag {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 auto;
+    width: 50px;
+    height: 50px;
+    background: var(--text);
+    border-radius: 0 0 8px 8px;
+    cursor: grab;
+
+    &:active {
+      cursor: grabbing;
+    }
+
+    & > svg {
+      width: 70%;
+      height: 70%;
+      fill: var(--bg-light);
+      stroke: var(--bg-light);
+    }
+  }
+
+  &__name {
+    flex: 0 0 auto;
+    margin-top: 16px;
+    margin-left: 24px;
+    font-size: 28px;
+  }
+
+  &__buttonDelete {
+    flex: 0 0 auto;
+    width: 30px;
+    height: 30px;
+    margin-left: auto;
+    margin-top: 15px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+
+    & > svg {
+      width: 100%;
+      height: 100%;
+      fill: var(--primary);
+      stroke: var(--primary);
+    }
+  }
+
+  &__content {
+    margin-top: 14px;
+    padding: 0 20px;
+  }
+}
+
+.workbenchCardId {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  margin-top: 12px;
+  padding: 0 20px;
+
+  &__buttonEdit {
+    width: 24px;
+    height: 24px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+
+    & > svg {
+      width: 100%;
+      height: 100%;
+      fill: var(--secondary);
+      stroke: var(--secondary);
+    }
+  }
+
+  &__text {
+    color: var(--text-inactive);
+    font-style: italic;
+    font-size: 24px;
+  }
+}
+
+.workbenchCardEdit {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 14px;
+  margin-bottom: 18px;
+  padding: 0 20px;
+  cursor: pointer;
+
+  &__button {
+    width: 27px;
+    height: 27px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+
+    & > svg {
+      width: 100%;
+      height: 100%;
+      fill: var(--text);
+      stroke: var(--text);
+    }
+  }
+
+  &__text {
+    font-size: 24px;
+    font-style: italic;
+  }
+}

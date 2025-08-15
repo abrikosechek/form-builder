@@ -19,6 +19,7 @@
   background: var(--text-inactive);
   border: 2px solid var(--text);
   border-radius: 999px;
+  cursor: pointer;
   transition: 0.2s;
 
   &[data-state='checked'] {

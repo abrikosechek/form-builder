@@ -1,2 +1,1 @@
-export { ComponentCard } from './ComponentCard'
 export { WorkbenchCard } from './WorkbenchCard'

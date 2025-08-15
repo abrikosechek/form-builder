@@ -1,38 +1,32 @@
-import { NavLink } from 'react-router'
-import { ReactNode } from 'react'
-import { useModalStore } from '@/shared/model/Modal'
 import styles from './Aside.module.scss'
-import { Button } from '@/shared/ui'
+import React from 'react'
+import { NavLink } from 'react-router'
 import { PlusIcon } from '@radix-ui/react-icons'
 import { CreateFormModal } from '@/modals/CreateForm'
+import { useFormsStore } from '@/entities/Forms'
+import { useModalStore } from '@/shared/model/Modal'
+import { Button } from '@/shared/ui'
 
-interface Props {
-  to: string
-  children: ReactNode
-}
+const AsideList = React.memo(function AsideList() {
+  const { forms } = useFormsStore()
 
-const AsideListItem = ({ to, children }: Props) => {
   return (
-    <NavLink className={styles.asideListItem} to={`form/${to}`}>
-      {children}
-    </NavLink>
+    <div className={styles.aside__list}>
+      {forms.map((form) => (
+        <NavLink
+          key={form.name}
+          className={styles.asideListItem}
+          to={`form/${form.name}`}
+        >
+          {form.name}
+        </NavLink>
+      ))}
+    </div>
   )
-}
-
-const links = [
-  {
-    name: 'first',
-  },
-  {
-    name: 'fie2q3wdrst',
-  },
-  {
-    name: '2314ewq',
-  },
-]
+})
 
 export const Aside = () => {
-  const setModal = useModalStore((state) => state.setModal)
+  const { setModal } = useModalStore()
 
   const openCreateFormModal = () => {
     setModal({
@@ -50,11 +44,7 @@ export const Aside = () => {
         </Button>
       </div>
 
-      <div className={styles.aside__list}>
-        {links.map((link) => (
-          <AsideListItem to={link.name}>{link.name}</AsideListItem>
-        ))}
-      </div>
+      <AsideList />
     </div>
   )
 }
