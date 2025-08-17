@@ -26,16 +26,6 @@ const Template: Story = {
 export const Default: Story = {
   ...Template,
   args: {
-    options: [
-      {
-        value: 'Option 1',
-      },
-      {
-        value: 'Option 2',
-      },
-      {
-        value: 'Option 3',
-      },
-    ],
+    items: ['Option 1', 'Option 2', 'Option 3'],
   },
 }

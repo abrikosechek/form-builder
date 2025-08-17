@@ -3,24 +3,14 @@ import styles from './Select.module.scss'
 import { DropdownMenu } from 'radix-ui'
 import { CaretDownIcon } from '@radix-ui/react-icons'
 
-type Option = {
-  value: string
-  label?: string
-}
-
 interface Props {
   value?: string
   onChange?: (e: string) => any
-  options: Option[]
+  items: string[]
   disabled?: boolean
 }
 
-export const Select = ({
-  value,
-  onChange,
-  options,
-  disabled = false,
-}: Props) => {
+export const Select = ({ value, onChange, items, disabled = false }: Props) => {
   return (
     <DropdownMenu.Root>
       <DropdownMenu.Trigger asChild disabled={disabled}>
@@ -35,12 +25,12 @@ export const Select = ({
           className={`${styles.selectContent} ${inputsStyles.input}`}
         >
           <DropdownMenu.RadioGroup value={value} onValueChange={onChange}>
-            {options.map((option) => (
+            {items.map((item) => (
               <DropdownMenu.RadioItem
                 className={styles.selectItem}
-                value={option.value}
+                value={item}
               >
-                <p>{option.label || option.value}</p>
+                <p>{item}</p>
               </DropdownMenu.RadioItem>
             ))}
           </DropdownMenu.RadioGroup>

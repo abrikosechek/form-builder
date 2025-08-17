@@ -5,12 +5,14 @@ type Modal = {
   el: ReactNode
 }
 
-interface ModalStore {
+type State = {
   modal: Modal | null
+}
+type Action = {
   setModal: (newModal: Modal | null) => void
 }
 
-export const useModalStore = create<ModalStore>()((set) => ({
+export const useModalStore = create<State & Action>()((set) => ({
   modal: null,
   setModal: (newModal) => set({ modal: newModal }),
 }))

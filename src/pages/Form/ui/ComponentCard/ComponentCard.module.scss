@@ -7,8 +7,14 @@
   border: 2px solid var(--text);
   border-radius: 12px;
   overflow: hidden;
-  cursor: grab;
+  cursor: pointer;
   user-select: none;
+  transition: 0.3s;
+
+  &:hover {
+    transform: scale(1.03);
+    box-shadow: 0 0 20px 6px rgba(0, 0, 0.3);
+  }
 
   &__buttonAdd {
     position: absolute;
