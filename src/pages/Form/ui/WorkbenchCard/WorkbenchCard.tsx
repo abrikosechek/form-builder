@@ -8,6 +8,7 @@ import {
   Pencil2Icon,
   TrashIcon,
 } from '@radix-ui/react-icons'
+import { useClickOutside } from '@/shared/hooks/useClickOutside'
 
 interface WorkbenchCardIdProps {
   isEdit?: boolean
@@ -41,12 +42,12 @@ const WorkbenchCardId = ({
           ref={inputComponent}
           className={styles.workbenchCardId__input}
           type="text"
+          placeholder="id"
           maxLength={150}
           value={input}
           onChange={(e) => setInput(e.target.value)}
           onSubmit={() => onSubmit?.(input)}
         />
-        1
       </div>
     )
   } else {
@@ -69,14 +70,17 @@ interface Props {
   title: string
   id?: string
   add?: boolean
+  onCancel?: () => void
   children?: ReactNode
 }
 
-export const WorkbenchCard = ({ title, id, add = false, children }: Props) => {
-  const closeCard = () => {
-    console.log('Close "Add workbench card"')
-  }
-
+export const WorkbenchCard = ({
+  title,
+  id,
+  add = false,
+  onCancel,
+  children,
+}: Props) => {
   const createForm = () => {
     console.log('Create new form"')
   }
@@ -85,7 +89,7 @@ export const WorkbenchCard = ({ title, id, add = false, children }: Props) => {
     if (add) {
       const handleEscDown = (event: KeyboardEvent) => {
         if (event.key === 'Escape') {
-          closeCard()
+          onCancel?.()
         }
       }
 
@@ -94,8 +98,10 @@ export const WorkbenchCard = ({ title, id, add = false, children }: Props) => {
     }
   }, [])
 
+  const workbenchCardElement = useClickOutside(() => onCancel?.())
+
   return (
-    <div className={styles.workbenchCard}>
+    <div ref={workbenchCardElement} className={styles.workbenchCard}>
       {/* header */}
       <div className={styles.workbenchCard__header}>
         {!add && (
@@ -109,7 +115,7 @@ export const WorkbenchCard = ({ title, id, add = false, children }: Props) => {
         {add ? (
           <button
             className={styles.workbenchCard__buttonDelete}
-            onClick={() => closeCard()}
+            onClick={() => onCancel?.()}
           >
             <Cross1Icon />
           </button>

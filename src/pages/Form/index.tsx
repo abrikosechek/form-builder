@@ -161,7 +161,17 @@ export const FormPage = () => {
         ))}
 
         {/* add form input */}
-        {newInput.active && <WorkbenchCard add title={newInput.type} />}
+        {newInput.active && (
+          <WorkbenchCard
+            add
+            title={newInput.type}
+            onCancel={() =>
+              dispatchNewInput({
+                type: 'CANCEL',
+              })
+            }
+          />
+        )}
       </section>
 
       {/* form preview */}
