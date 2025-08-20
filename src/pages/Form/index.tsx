@@ -2,10 +2,12 @@ import styles from './index.module.scss'
 import { RadioItem } from '@/shared/ui/Radio/ui/RadioItem'
 import { ComponentCard, WorkbenchCard } from './ui'
 import { Checkbox, Input, Radio, Select } from '@/shared/ui'
-import { ReactNode, useMemo, useReducer, useState } from 'react'
+import { ReactNode, useMemo, useReducer, useRef, useState } from 'react'
 import { useFormsStore } from '@/entities/Forms'
 import { useParams } from 'react-router'
 import type { InputTypes, TInput } from '@/shared/types/inputs'
+import { useClickOutside } from '@/shared/hooks/useClickOutside'
+import { SelectItem } from '@/shared/ui/Select'
 
 type componentsLibItem = {
   type: InputTypes
@@ -25,102 +27,78 @@ const componentsLib: componentsLibItem[] = [
     type: 'radio',
     content: (
       <Radio disabled>
-        <RadioItem disabled label="Option" />
+        <RadioItem disabled>Option</RadioItem>
       </Radio>
     ),
   },
   {
     type: 'select',
-    content: <Select disabled items={[]} />,
+    content: <Select disabled />,
   },
 ]
 
-const WorkbenchCardSample = (props: TInput) => {
+const WorkbenchCardContent = (props: TInput) => {
   return (
-    <WorkbenchCard title={props.type} id={props.id}>
+    <>
       {props.type === 'input' ? (
-        <Input {...props.params} />
+        <Input {...props.params} disabled />
       ) : props.type === 'checkbox' ? (
-        <Checkbox {...props.params} />
+        <Checkbox {...props.params} disabled />
       ) : props.type === 'radio' ? (
-        // DO COMPONENT
-        <Radio {...props.params} />
+        <Radio {...props.params} disabled>
+          {props.options.map((item) => (
+            <RadioItem key={item} value={item}>
+              {item}
+            </RadioItem>
+          ))}
+        </Radio>
       ) : props.type === 'select' ? (
-        // DO COMPONENT
-        <Select {...props.params} />
+        <Select {...props.params} disabled>
+          {props.options.map((option) => (
+            <SelectItem key={option} value={option}>
+              {option}
+            </SelectItem>
+          ))}
+        </Select>
       ) : (
         <p>component not found</p>
       )}
-    </WorkbenchCard>
+    </>
   )
-}
-
-type NewInputReducerState =
-  | {
-      active: true
-      type: InputTypes
-      id: string
-    }
-  | { active: false }
-
-type NewInputReducerAction =
-  | {
-      type: 'CREATE'
-      payload: InputTypes
-    }
-  | {
-      type: 'UPDATE_ID'
-      payload: string
-    }
-  | {
-      type: 'CANCEL'
-    }
-
-const newInputReducer = (
-  state: NewInputReducerState,
-  action: NewInputReducerAction
-): NewInputReducerState => {
-  switch (action.type) {
-    case 'CREATE':
-      return {
-        active: true,
-        type: action.payload,
-        id: '',
-      }
-    case 'UPDATE_ID':
-      if (state.active) {
-        return {
-          ...state,
-          id: action.payload,
-        }
-      } else {
-        return state
-      }
-    case 'CANCEL':
-      return {
-        active: false,
-      }
-    default:
-      return {
-        active: false,
-      }
-  }
 }
 
 export const FormPage = () => {
   let params = useParams()
 
-  const { forms } = useFormsStore()
+  const { forms, addInput, removeInput } = useFormsStore()
 
   const pageForm = useMemo(
     () => forms.find((form) => form.name == params.formName),
     [forms]
   )
 
-  const [newInput, dispatchNewInput] = useReducer(newInputReducer, {
-    active: false,
-  })
+  const newInputCardEl = useRef(null)
+  useClickOutside(newInputCardEl, () => setNewInputCardState(null))
 
+  const [newInputCardState, setNewInputCardState] = useState<null | InputTypes>(
+    null
+  )
+
+  const createNewInput = (id: string) => {
+    if (!params.formName) {
+      console.error("Can't find current form name")
+      return
+    }
+    if (!newInputCardState) {
+      console.error("Can't find new input type")
+      return
+    }
+
+    addInput(params.formName, id, newInputCardState)
+    setNewInputCardState(null)
+  }
+
+  // RENDER
   if (!pageForm) {
     return <h1>No such form</h1>
   }
@@ -140,12 +118,7 @@ export const FormPage = () => {
             <ComponentCard
               key={component.type}
               name={component.type}
-              onClick={() =>
-                dispatchNewInput({
-                  type: 'CREATE',
-                  payload: component.type,
-                })
-              }
+              onClick={() => setNewInputCardState(component.type)}
             >
               {component.content}
             </ComponentCard>
@@ -157,19 +130,24 @@ export const FormPage = () => {
       <section className={styles.workbench}>
         {/* form inputs */}
         {pageForm.inputs.map((input) => (
-          <WorkbenchCardSample {...input} />
+          <WorkbenchCard
+            key={input.id}
+            title={input.type}
+            id={input.id}
+            onDelete={() => removeInput(params.formName || '', input.id)}
+          >
+            <WorkbenchCardContent {...input} />
+          </WorkbenchCard>
         ))}
 
         {/* add form input */}
-        {newInput.active && (
+        {newInputCardState && (
           <WorkbenchCard
+            ref={newInputCardEl}
             add
-            title={newInput.type}
-            onCancel={() =>
-              dispatchNewInput({
-                type: 'CANCEL',
-              })
-            }
+            title={newInputCardState}
+            onSubmitId={(id) => createNewInput(id)}
+            onCancel={() => setNewInputCardState(null)}
           />
         )}
       </section>

@@ -5,6 +5,7 @@
   gap: 8px;
   width: 100%;
   max-width: 400px;
+  color: var(--text-inactive);
   cursor: pointer;
   user-select: none;
 
@@ -13,6 +14,7 @@
     height: 30px;
     fill: currentColor;
     stroke: currentColor;
+    color: var(--text);
   }
 
   &[aria-expanded='true'] {
@@ -31,14 +33,4 @@
   padding: 0;
   border-radius: 0 0 8px 8px;
   user-select: none;
-}
-
-.selectItem {
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  height: 50px;
-  padding: 13px;
-  font-size: 22px;
-  cursor: pointer;
 }

@@ -1,5 +1,5 @@
 import styles from './WorkbenchCard.module.scss'
-import { ReactNode, useEffect, useRef, useState } from 'react'
+import { ReactNode, RefObject, useEffect, useRef, useState } from 'react'
 import {
   CheckIcon,
   Cross1Icon,
@@ -23,32 +23,38 @@ const WorkbenchCardId = ({
 }: WorkbenchCardIdProps) => {
   if (isEdit) {
     const [input, setInput] = useState(id || '')
-    const inputComponent = useRef<HTMLInputElement>(null)
+    const inputEl = useRef<HTMLInputElement>(null)
 
     useEffect(() => {
-      inputComponent.current?.focus()
+      inputEl.current?.focus()
     }, [isEdit])
 
     return (
       // id input
-      <div className={styles.workbenchCardId}>
+      <form
+        className={styles.workbenchCardId}
+        onSubmit={(e) => {
+          e.preventDefault()
+          onSubmit?.(input)
+        }}
+      >
         <button
           className={`${styles.workbenchCardId__button} ${styles['workbenchCardId__button--submit']}`}
-          onClick={() => onSubmit?.(input)}
+          type="submit"
         >
           <CheckIcon />
         </button>
+
         <input
-          ref={inputComponent}
+          ref={inputEl}
           className={styles.workbenchCardId__input}
           type="text"
           placeholder="id"
           maxLength={150}
           value={input}
           onChange={(e) => setInput(e.target.value)}
-          onSubmit={() => onSubmit?.(input)}
         />
-      </div>
+      </form>
     )
   } else {
     return (
@@ -67,24 +73,26 @@ const WorkbenchCardId = ({
 }
 
 interface Props {
-  title: string
   id?: string
+  title: string
   add?: boolean
+  ref?: RefObject<HTMLDivElement | null>
   onCancel?: () => void
+  onSubmitId?: (idInputValue: string) => void
+  onDelete?: () => void
   children?: ReactNode
 }
 
 export const WorkbenchCard = ({
-  title,
   id,
+  title,
   add = false,
+  ref,
   onCancel,
+  onSubmitId,
+  onDelete,
   children,
 }: Props) => {
-  const createForm = () => {
-    console.log('Create new form"')
-  }
-
   useEffect(() => {
     if (add) {
       const handleEscDown = (event: KeyboardEvent) => {
@@ -98,10 +106,22 @@ export const WorkbenchCard = ({
     }
   }, [])
 
-  const workbenchCardElement = useClickOutside(() => onCancel?.())
+  const workbenchCardElement = useRef(null)
+  useClickOutside(workbenchCardElement, () => add && onCancel?.())
+
+  const submitId = (newId: string) => {
+    const newIdNormalized = newId.replaceAll(' ', '')
+
+    if (!newIdNormalized) {
+      console.error('Id input is empty')
+      return
+    }
+
+    onSubmitId?.(newIdNormalized)
+  }
 
   return (
-    <div ref={workbenchCardElement} className={styles.workbenchCard}>
+    <div ref={ref} className={styles.workbenchCard}>
       {/* header */}
       <div className={styles.workbenchCard__header}>
         {!add && (
@@ -120,7 +140,10 @@ export const WorkbenchCard = ({
             <Cross1Icon />
           </button>
         ) : (
-          <button className={styles.workbenchCard__buttonDelete}>
+          <button
+            className={styles.workbenchCard__buttonDelete}
+            onClick={() => onDelete?.()}
+          >
             <TrashIcon />
           </button>
         )}
@@ -128,9 +151,9 @@ export const WorkbenchCard = ({
 
       {/* id */}
       {add ? (
-        <WorkbenchCardId isEdit onSubmit={() => createForm()} />
+        <WorkbenchCardId isEdit onSubmit={submitId} />
       ) : (
-        <WorkbenchCardId id="email" />
+        <WorkbenchCardId id={id} />
       )}
 
       {/* content */}

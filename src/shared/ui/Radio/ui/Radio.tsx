@@ -20,8 +20,6 @@ export const Radio = ({
   disabled = false,
   children,
 }: Props) => {
-  console.log
-
   return (
     <div className={`${styles.radioContainer} ${inputStyles.input}`}>
       {title && <p className={styles.title}>{title}</p>}

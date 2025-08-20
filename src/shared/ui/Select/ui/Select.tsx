@@ -2,15 +2,21 @@ import inputsStyles from '@/shared/styles/inputs.module.scss'
 import styles from './Select.module.scss'
 import { DropdownMenu } from 'radix-ui'
 import { CaretDownIcon } from '@radix-ui/react-icons'
+import { ReactNode } from 'react'
 
 interface Props {
   value?: string
   onChange?: (e: string) => any
-  items: string[]
   disabled?: boolean
+  children?: ReactNode
 }
 
-export const Select = ({ value, onChange, items, disabled = false }: Props) => {
+export const Select = ({
+  value,
+  disabled = false,
+  onChange,
+  children,
+}: Props) => {
   return (
     <DropdownMenu.Root>
       <DropdownMenu.Trigger asChild disabled={disabled}>
@@ -25,14 +31,7 @@ export const Select = ({ value, onChange, items, disabled = false }: Props) => {
           className={`${styles.selectContent} ${inputsStyles.input}`}
         >
           <DropdownMenu.RadioGroup value={value} onValueChange={onChange}>
-            {items.map((item) => (
-              <DropdownMenu.RadioItem
-                className={styles.selectItem}
-                value={item}
-              >
-                <p>{item}</p>
-              </DropdownMenu.RadioItem>
-            ))}
+            {children}
           </DropdownMenu.RadioGroup>
         </DropdownMenu.Content>
       </DropdownMenu.Portal>

@@ -30,6 +30,8 @@ const Template: Story = {
   render: (args) => {
     const [value, setValue] = useState<string>('')
 
+    const options = ['first', 'second', 'third']
+
     return (
       <>
         <Radio
@@ -41,9 +43,9 @@ const Template: Story = {
             args.onChange?.(e)
           }}
         >
-          <RadioItem value={'first'} />
-          <RadioItem value={'second'} />
-          <RadioItem value={'third'} />
+          {options.map((option) => (
+            <RadioItem value={option}>{option}</RadioItem>
+          ))}
         </Radio>
         <p>Choosed option: {value}</p>
       </>

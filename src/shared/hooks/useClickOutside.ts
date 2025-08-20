@@ -1,23 +1,22 @@
-import { useEffect, useRef } from 'react'
+import { RefObject, useEffect } from 'react'
 
-export const useClickOutside = (callback: () => void) => {
-  const ref = useRef<HTMLDivElement>(null)
-
+export const useClickOutside = (
+  ref: RefObject<HTMLElement | null>,
+  handleOnClickOutside: (event: MouseEvent | TouchEvent) => void
+) => {
   useEffect(() => {
-    const handleClickOutside = (event: MouseEvent | TouchEvent) => {
-      if (ref.current && !ref.current.contains(event.target as Node)) {
-        callback()
+    const listener = (event: MouseEvent | TouchEvent) => {
+      if (!ref.current || ref.current.contains(event.target as Node)) {
+        return
       }
+      handleOnClickOutside(event)
     }
-
-    document.addEventListener('mouseup', handleClickOutside)
-    document.addEventListener('touchend', handleClickOutside)
-
+    
+    document.addEventListener('mousedown', listener)
+    document.addEventListener('touchstart', listener)
     return () => {
-      document.removeEventListener('mouseup', handleClickOutside)
-      document.removeEventListener('touchend', handleClickOutside)
+      document.removeEventListener('mousedown', listener)
+      document.removeEventListener('touchstart', listener)
     }
-  }, [callback])
-
-  return ref
+  }, [ref, handleOnClickOutside])
 }

@@ -16,17 +16,17 @@ export type InputCheckbox = {
 }
 export type InputRadio = {
   type: 'radio'
+  options: string[]
   params: {
     label?: string
     value?: string
-    items: string[]
   }
 }
 export type InputSelect = {
   type: 'select'
+  options: string[]
   params: {
     value?: string
-    items: string[]
   }
 }
 
