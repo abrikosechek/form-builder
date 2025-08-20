@@ -24,20 +24,27 @@ export const CreateFormModal = () => {
 
   return (
     <Modal title="Create new form">
-      <Input
-        value={inputValue}
-        onChange={(e) => setInputValue(e.target.value)}
-        placeholder="Form title"
-      />
+      <form onSubmit={() => submit()}>
+        <Input
+          value={inputValue}
+          onChange={(e) => setInputValue(e.target.value)}
+          placeholder="Form title"
+        />
 
-      <div className={styles.buttons}>
-        <Button color="success" wide onClick={() => submit()}>
-          Create
-        </Button>
-        <Button color="grey" wide onClick={() => setModal(null)}>
-          Cancel
-        </Button>
-      </div>
+        <div className={styles.buttons}>
+          <Button color="success" wide type="submit">
+            Create
+          </Button>
+          <Button
+            color="grey"
+            wide
+            type="button"
+            onClick={() => setModal(null)}
+          >
+            Cancel
+          </Button>
+        </div>
+      </form>
     </Modal>
   )
 }
