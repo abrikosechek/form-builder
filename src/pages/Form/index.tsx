@@ -114,6 +114,21 @@ export const FormPage = () => {
     return () => window.removeEventListener('keydown', handleEscDown)
   }, [newInputCardState])
 
+  // components lib items filtered
+  const [componentsLibInput, setComponentsLibInput] = useState('')
+
+  const componentsLibFiltered = useMemo(() => {
+    const inputNormalized = componentsLibInput.replaceAll(' ', '').toLowerCase()
+    let result = { ...componentsLib }
+
+    // filter by search (case-insensitive, whitespace-insensitive)
+    result = componentsLib.filter((component) =>
+      component.type.replaceAll(' ', '').toLowerCase().includes(inputNormalized)
+    )
+
+    return result
+  }, [componentsLibInput])
+
   // RENDER
   if (!pageForm) {
     return <h1>No such form</h1>
@@ -128,9 +143,11 @@ export const FormPage = () => {
           className={styles.components__inputSearch}
           type="text"
           placeholder="Search..."
+          value={componentsLibInput}
+          onChange={(e) => setComponentsLibInput(e.target.value)}
         />
         <div className={styles.components__list}>
-          {componentsLib.map((component) => (
+          {componentsLibFiltered.map((component) => (
             <ComponentCard
               key={component.type}
               name={component.type}
