@@ -8,20 +8,23 @@ import {
   Pencil2Icon,
   TrashIcon,
 } from '@radix-ui/react-icons'
-import { useClickOutside } from '@/shared/hooks/useClickOutside'
 
 interface WorkbenchCardIdProps {
-  isEdit?: boolean
   id?: string
+  isEdit?: boolean
+  cancelButton?: boolean
   onSubmit?: (inputValue: string) => void
   onEnableEdit?: () => void
+  onCancel?: () => void
 }
 
 const WorkbenchCardId = ({
-  isEdit = false,
   id,
+  isEdit = false,
+  cancelButton = false,
   onSubmit,
   onEnableEdit,
+  onCancel,
 }: WorkbenchCardIdProps) => {
   if (isEdit) {
     const [input, setInput] = useState(id || '')
@@ -31,13 +34,23 @@ const WorkbenchCardId = ({
       inputEl.current?.focus()
     }, [isEdit])
 
+    const submit = () => {
+      const newIdNormalized = input.replaceAll(' ', '')
+
+      if (!newIdNormalized) {
+        console.error('Id input is empty')
+        return
+      }
+
+      onSubmit?.(newIdNormalized)
+    }
+
     return (
-      // id input
       <form
         className={styles.workbenchCardId}
         onSubmit={(e) => {
           e.preventDefault()
-          onSubmit?.(input)
+          submit()
         }}
       >
         <button
@@ -56,15 +69,24 @@ const WorkbenchCardId = ({
           value={input}
           onChange={(e) => setInput(e.target.value)}
         />
+
+        {cancelButton && (
+          <button
+            className={`${styles.workbenchCardId__button} ${styles['workbenchCardId__button--cancel']}`}
+            type="button"
+            onClick={() => onCancel?.()}
+          >
+            <Cross1Icon />
+          </button>
+        )}
       </form>
     )
   } else {
     return (
-      // id display
       <div className={styles.workbenchCardId}>
         <button
           className={`${styles.workbenchCardId__button} ${styles['workbenchCardId__button--edit']}`}
-          onClick={onEnableEdit}
+          onClick={() => onEnableEdit?.()}
         >
           <Pencil2Icon />
         </button>
@@ -82,6 +104,7 @@ interface Props {
   ref?: RefObject<HTMLDivElement | null>
   onCancel?: () => void
   onCreateInput?: (inputId: string) => void
+  onRenameInput?: (newId: string) => void
   onDelete?: () => void
   children?: ReactNode
 }
@@ -93,19 +116,16 @@ export const WorkbenchCard = ({
   ref,
   onCancel,
   onCreateInput,
+  onRenameInput,
   onDelete,
   children,
 }: Props) => {
-  // create new input
-  const submitId = (newId: string) => {
-    const newIdNormalized = newId.replaceAll(' ', '')
+  // rename input (change id)
+  const [isRename, setIsRename] = useState(false)
 
-    if (!newIdNormalized) {
-      console.error('Id input is empty')
-      return
-    }
-
-    onCreateInput?.(newIdNormalized)
+  const renameInput = (newId: string) => {
+    setIsRename(false)
+    onRenameInput?.(newId)
   }
 
   // RENDER
@@ -140,9 +160,17 @@ export const WorkbenchCard = ({
 
       {/* id */}
       {add ? (
-        <WorkbenchCardId isEdit onSubmit={submitId} />
+        <WorkbenchCardId isEdit onSubmit={onCreateInput} />
+      ) : isRename ? (
+        <WorkbenchCardId
+          isEdit
+          cancelButton
+          id={id}
+          onSubmit={renameInput}
+          onCancel={() => setIsRename(false)}
+        />
       ) : (
-        <WorkbenchCardId id={id} />
+        <WorkbenchCardId id={id} onEnableEdit={() => setIsRename(true)} />
       )}
 
       {/* content */}

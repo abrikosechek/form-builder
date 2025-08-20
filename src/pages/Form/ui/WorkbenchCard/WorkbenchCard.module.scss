@@ -5,6 +5,7 @@
   background: var(--bg-light);
   border: 2px solid var(--text);
   border-radius: 12px;
+  box-shadow: 0 0 18px rgba(0, 0, 0, 0.3);
   user-select: none;
 
   &__header {
@@ -98,6 +99,12 @@
       & > svg {
         fill: var(--success);
         stroke: var(--success);
+      }
+    }
+    &--cancel {
+      & > svg {
+        fill: var(--primary);
+        stroke: var(--primary);
       }
     }
   }

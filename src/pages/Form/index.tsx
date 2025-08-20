@@ -70,7 +70,7 @@ const WorkbenchCardContent = (props: TInput) => {
 export const FormPage = () => {
   // route params, zustand
   let params = useParams()
-  const { forms, addInput, removeInput } = useFormsStore()
+  const { forms, addInput, removeInput, renameInput } = useFormsStore()
 
   // page form
   const pageForm = useMemo(
@@ -78,7 +78,7 @@ export const FormPage = () => {
     [forms]
   )
 
-  // new input card
+  // newInputCard
   const [newInputCardState, setNewInputCardState] = useState<null | InputTypes>(
     null
   )
@@ -102,7 +102,7 @@ export const FormPage = () => {
   const newInputCardEl = useRef(null)
   useClickOutside(newInputCardEl, () => setNewInputCardState(null))
 
-  //--on "esc" keyboard button
+  //-- on "esc" keyboard button
   useEffect(() => {
     const handleEscDown = (event: KeyboardEvent) => {
       if (event.key === 'Escape' && newInputCardState) {
@@ -151,6 +151,9 @@ export const FormPage = () => {
             title={input.type}
             id={input.id}
             onDelete={() => removeInput(params.formName || '', input.id)}
+            onRenameInput={(newId) =>
+              renameInput(params.formName || '', input.id, newId)
+            }
           >
             <WorkbenchCardContent {...input} />
           </WorkbenchCard>
