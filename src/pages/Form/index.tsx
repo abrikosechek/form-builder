@@ -2,7 +2,7 @@ import styles from './index.module.scss'
 import { RadioItem } from '@/shared/ui/Radio/ui/RadioItem'
 import { ComponentCard, WorkbenchCard } from './ui'
 import { Checkbox, Input, Radio, Select } from '@/shared/ui'
-import { ReactNode, useMemo, useReducer, useRef, useState } from 'react'
+import { ReactNode, useEffect, useMemo, useRef, useState } from 'react'
 import { useFormsStore } from '@/entities/Forms'
 import { useParams } from 'react-router'
 import type { InputTypes, TInput } from '@/shared/types/inputs'
@@ -68,18 +68,17 @@ const WorkbenchCardContent = (props: TInput) => {
 }
 
 export const FormPage = () => {
+  // route params, zustand
   let params = useParams()
-
   const { forms, addInput, removeInput } = useFormsStore()
 
+  // page form
   const pageForm = useMemo(
     () => forms.find((form) => form.name == params.formName),
     [forms]
   )
 
-  const newInputCardEl = useRef(null)
-  useClickOutside(newInputCardEl, () => setNewInputCardState(null))
-
+  // new input card
   const [newInputCardState, setNewInputCardState] = useState<null | InputTypes>(
     null
   )
@@ -97,6 +96,23 @@ export const FormPage = () => {
     addInput(params.formName, id, newInputCardState)
     setNewInputCardState(null)
   }
+
+  // close newInputCard
+  //-- on click outside
+  const newInputCardEl = useRef(null)
+  useClickOutside(newInputCardEl, () => setNewInputCardState(null))
+
+  //--on "esc" keyboard button
+  useEffect(() => {
+    const handleEscDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape' && newInputCardState) {
+        setNewInputCardState(null)
+      }
+    }
+
+    window.addEventListener('keydown', handleEscDown)
+    return () => window.removeEventListener('keydown', handleEscDown)
+  }, [newInputCardState])
 
   // RENDER
   if (!pageForm) {
@@ -146,7 +162,7 @@ export const FormPage = () => {
             ref={newInputCardEl}
             add
             title={newInputCardState}
-            onSubmitId={(id) => createNewInput(id)}
+            onCreateInput={(id) => createNewInput(id)}
             onCancel={() => setNewInputCardState(null)}
           />
         )}

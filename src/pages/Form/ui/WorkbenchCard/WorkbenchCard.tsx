@@ -14,12 +14,14 @@ interface WorkbenchCardIdProps {
   isEdit?: boolean
   id?: string
   onSubmit?: (inputValue: string) => void
+  onEnableEdit?: () => void
 }
 
 const WorkbenchCardId = ({
   isEdit = false,
   id,
   onSubmit,
+  onEnableEdit,
 }: WorkbenchCardIdProps) => {
   if (isEdit) {
     const [input, setInput] = useState(id || '')
@@ -62,6 +64,7 @@ const WorkbenchCardId = ({
       <div className={styles.workbenchCardId}>
         <button
           className={`${styles.workbenchCardId__button} ${styles['workbenchCardId__button--edit']}`}
+          onClick={onEnableEdit}
         >
           <Pencil2Icon />
         </button>
@@ -78,7 +81,7 @@ interface Props {
   add?: boolean
   ref?: RefObject<HTMLDivElement | null>
   onCancel?: () => void
-  onSubmitId?: (idInputValue: string) => void
+  onCreateInput?: (inputId: string) => void
   onDelete?: () => void
   children?: ReactNode
 }
@@ -89,26 +92,11 @@ export const WorkbenchCard = ({
   add = false,
   ref,
   onCancel,
-  onSubmitId,
+  onCreateInput,
   onDelete,
   children,
 }: Props) => {
-  useEffect(() => {
-    if (add) {
-      const handleEscDown = (event: KeyboardEvent) => {
-        if (event.key === 'Escape') {
-          onCancel?.()
-        }
-      }
-
-      window.addEventListener('keydown', handleEscDown)
-      return () => window.removeEventListener('keydown', handleEscDown)
-    }
-  }, [])
-
-  const workbenchCardElement = useRef(null)
-  useClickOutside(workbenchCardElement, () => add && onCancel?.())
-
+  // create new input
   const submitId = (newId: string) => {
     const newIdNormalized = newId.replaceAll(' ', '')
 
@@ -117,9 +105,10 @@ export const WorkbenchCard = ({
       return
     }
 
-    onSubmitId?.(newIdNormalized)
+    onCreateInput?.(newIdNormalized)
   }
 
+  // RENDER
   return (
     <div ref={ref} className={styles.workbenchCard}>
       {/* header */}
