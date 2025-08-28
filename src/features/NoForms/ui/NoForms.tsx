@@ -19,7 +19,7 @@ export const NoForms = () => {
       <p className={styles.noForms__description}>
         Create new form to try our amazing zero-code FormBuilder
       </p>
-      <Button onClick={(e) => openCreateFormModal()}>
+      <Button onClick={() => openCreateFormModal()}>
         <PlusIcon />
         <p>create form</p>
       </Button>

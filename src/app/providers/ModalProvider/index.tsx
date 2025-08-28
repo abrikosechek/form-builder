@@ -1,8 +1,29 @@
 import { useModalStore } from '@/shared/model/Modal'
-import { ModalRoot } from '@/shared/ui/Modal'
+import { ModalRoot } from '@/shared/ui'
+import { useEffect } from 'react'
+import { FocusTrap } from 'focus-trap-react'
 
 export const ModalProvider = () => {
-  const modal = useModalStore((state) => state.modal)
+  // zustand
+  const { setModal, modal } = useModalStore()
 
-  return <>{modal && <ModalRoot>{modal.el}</ModalRoot>}</>
+  // close on ESC
+  useEffect(() => {
+    const handleEsc = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') setModal(null)
+    }
+
+    window.addEventListener('keydown', handleEsc)
+    return () => window.removeEventListener('keydown', handleEsc)
+  }, [])
+
+  return (
+    <>
+      {modal && (
+        <FocusTrap>
+          <ModalRoot>{modal.el}</ModalRoot>
+        </FocusTrap>
+      )}
+    </>
+  )
 }

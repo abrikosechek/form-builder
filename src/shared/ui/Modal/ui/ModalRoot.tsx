@@ -1,12 +1,13 @@
 import styles from './ModalRoot.module.scss'
 import { useModalStore } from '@/shared/model/Modal'
-import { MouseEvent, ReactNode } from 'react'
+import { MouseEvent, ReactNode, RefObject, useRef } from 'react'
 
 interface Props {
   children: ReactNode
+  ref?: RefObject<HTMLDivElement | null>
 }
 
-export const ModalRoot = ({ children }: Props) => {
+export const ModalRoot = ({ children, ref }: Props) => {
   const setModal = useModalStore((state) => state.setModal)
 
   const handleRootClick = (e: MouseEvent<HTMLDivElement>) => {
@@ -16,7 +17,7 @@ export const ModalRoot = ({ children }: Props) => {
   }
 
   return (
-    <div className={styles.modalRoot} onClick={handleRootClick}>
+    <div ref={ref} className={styles.modalRoot} onClick={handleRootClick}>
       {children}
     </div>
   )

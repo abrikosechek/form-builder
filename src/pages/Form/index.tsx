@@ -69,14 +69,11 @@ const WorkbenchCardContent = (props: TInput) => {
 
 export const FormPage = () => {
   // route params, zustand
-  let params = useParams()
-  const { forms, addInput, removeInput, renameInput } = useFormsStore()
+  let { pageFormName } = useParams()
+  const { addInput, removeInput, editInput, formById } = useFormsStore()
 
   // page form
-  const pageForm = useMemo(
-    () => forms.find((form) => form.name == params.formName),
-    [forms]
-  )
+  const pageForm = formById(pageFormName || '')
 
   // newInputCard
   const [newInputCardState, setNewInputCardState] = useState<null | InputTypes>(
@@ -84,7 +81,7 @@ export const FormPage = () => {
   )
 
   const createNewInput = (id: string) => {
-    if (!params.formName) {
+    if (!pageFormName) {
       console.error("Can't find current form name")
       return
     }
@@ -93,8 +90,12 @@ export const FormPage = () => {
       return
     }
 
-    addInput(params.formName, id, newInputCardState)
-    setNewInputCardState(null)
+    try {
+      addInput(pageFormName, id, newInputCardState)
+      setNewInputCardState(null)
+    } catch (error) {
+      console.error(error)
+    }
   }
 
   // close newInputCard
@@ -105,9 +106,8 @@ export const FormPage = () => {
   //-- on "esc" keyboard button
   useEffect(() => {
     const handleEscDown = (event: KeyboardEvent) => {
-      if (event.key === 'Escape' && newInputCardState) {
+      if (event.key === 'Escape' && newInputCardState)
         setNewInputCardState(null)
-      }
     }
 
     window.addEventListener('keydown', handleEscDown)
@@ -162,26 +162,28 @@ export const FormPage = () => {
       {/* workbench */}
       <section className={styles.workbench}>
         {/* form inputs */}
-        {pageForm.inputs.map((input) => (
+        {Object.entries(pageForm.inputs).map(([inputKey, inputValue]) => (
           <WorkbenchCard
-            key={input.id}
-            title={input.type}
-            id={input.id}
-            onDelete={() => removeInput(params.formName || '', input.id)}
+            key={inputKey}
+            formName={pageFormName || ''}
+            title={inputValue.type}
+            id={inputKey}
+            onDelete={() => removeInput(pageFormName || '', inputKey)}
             onRenameInput={(newId) =>
-              renameInput(params.formName || '', input.id, newId)
+              editInput(pageFormName || '', inputKey, newId, inputValue)
             }
           >
-            <WorkbenchCardContent {...input} />
+            <WorkbenchCardContent {...inputValue} />
           </WorkbenchCard>
         ))}
 
         {/* add form input */}
         {newInputCardState && (
           <WorkbenchCard
-            ref={newInputCardEl}
             add
+            formName={pageFormName || ''}
             title={newInputCardState}
+            ref={newInputCardEl}
             onCreateInput={(id) => createNewInput(id)}
             onCancel={() => setNewInputCardState(null)}
           />

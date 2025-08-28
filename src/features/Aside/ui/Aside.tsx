@@ -12,13 +12,13 @@ const AsideList = React.memo(function AsideList() {
 
   return (
     <div className={styles.aside__list}>
-      {forms.map((form) => (
+      {Object.entries(forms).map(([formKey, formValue]) => (
         <NavLink
-          key={form.name}
+          key={formKey}
           className={styles.asideListItem}
-          to={`form/${form.name}`}
+          to={`form/${formKey}`}
         >
-          {form.name}
+          {formKey}
         </NavLink>
       ))}
     </div>

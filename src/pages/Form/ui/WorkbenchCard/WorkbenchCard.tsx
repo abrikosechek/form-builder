@@ -8,6 +8,8 @@ import {
   Pencil2Icon,
   TrashIcon,
 } from '@radix-ui/react-icons'
+import { useModalStore } from '@/shared/model/Modal'
+import { EditInputParamsModal } from '@/modals/EditInputParams'
 
 interface WorkbenchCardIdProps {
   id?: string
@@ -99,6 +101,7 @@ const WorkbenchCardId = ({
 
 interface Props {
   id?: string
+  formName: string
   title: string
   add?: boolean
   ref?: RefObject<HTMLDivElement | null>
@@ -119,7 +122,11 @@ export const WorkbenchCard = ({
   onRenameInput,
   onDelete,
   children,
+  formName,
 }: Props) => {
+  // zustand
+  const { setModal } = useModalStore()
+
   // rename input (change id)
   const [isRename, setIsRename] = useState(false)
 
@@ -178,13 +185,17 @@ export const WorkbenchCard = ({
 
       {/* params */}
       {!add && (
-        <div className={styles.workbenchCardEdit}>
-          <button className={styles.workbenchCardEdit__button}>
-            <MixerHorizontalIcon />
-          </button>
-
+        <button
+          className={styles.workbenchCardEdit}
+          onClick={() =>
+            setModal({
+              el: <EditInputParamsModal formName={formName} inputId={id || ''} />,
+            })
+          }
+        >
+          <MixerHorizontalIcon className={styles.workbenchCardEdit__icon} />
           <p className={styles.workbenchCardEdit__text}>params</p>
-        </div>
+        </button>
       )}
     </div>
   )

@@ -13,7 +13,7 @@ export const router = createBrowserRouter([
         Component: HomePage,
       },
       {
-        path: '/form/:formName',
+        path: '/form/:pageFormName',
         Component: FormPage,
       },
     ],

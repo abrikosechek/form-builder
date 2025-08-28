@@ -1,0 +1,31 @@
+.buttons {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 16px;
+  margin-top: 20px;
+}
+
+.pararms-inputs {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+}
+
+.options {
+  width: 100%;
+  margin-top: 24px;
+
+  &__title {
+    font-size: 24px;
+    font-weight: 500;
+  }
+
+  &__list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px 8px;
+    width: 100%;
+    margin-top: 8px;
+  }
+}
