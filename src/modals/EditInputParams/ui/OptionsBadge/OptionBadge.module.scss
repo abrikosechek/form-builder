@@ -8,13 +8,14 @@
   background: var(--bg-light-2);
   border-radius: 8px;
   color: var(--text);
-  border: 0px solid transparent;
+  border: 2px solid transparent;
+  box-shadow: 0 0 6px rgba(0, 0, 0, 0.25);
   user-select: none;
   cursor: pointer;
   transition: border 0.2s;
 
   &--text:hover {
-    border: 1px solid var(--primary);
+    border-color: var(--primary);
   }
 
   &__text {

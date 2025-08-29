@@ -1,41 +1,14 @@
 import styles from './index.module.scss'
-import { RadioItem } from '@/shared/ui/Radio/ui/RadioItem'
+import { RadioItem } from '@/shared/ui'
 import { ComponentCard, WorkbenchCard } from './ui'
 import { Checkbox, Input, Radio, Select } from '@/shared/ui'
-import { ReactNode, useEffect, useMemo, useRef, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { useFormsStore } from '@/entities/Forms'
 import { useParams } from 'react-router'
 import type { InputTypes, TInput } from '@/shared/types/inputs'
 import { useClickOutside } from '@/shared/hooks/useClickOutside'
 import { SelectItem } from '@/shared/ui/Select'
-
-type componentsLibItem = {
-  type: InputTypes
-  content: ReactNode
-}
-
-const componentsLib: componentsLibItem[] = [
-  {
-    type: 'input',
-    content: <Input disabled />,
-  },
-  {
-    type: 'checkbox',
-    content: <Checkbox disabled />,
-  },
-  {
-    type: 'radio',
-    content: (
-      <Radio disabled>
-        <RadioItem disabled>Option</RadioItem>
-      </Radio>
-    ),
-  },
-  {
-    type: 'select',
-    content: <Select disabled />,
-  },
-]
+import { componentsCardsList } from './consts/ComponentCards'
 
 const WorkbenchCardContent = (props: TInput) => {
   return (
@@ -118,16 +91,21 @@ export const FormPage = () => {
   const [componentsLibInput, setComponentsLibInput] = useState('')
 
   const componentsLibFiltered = useMemo(() => {
-    const inputNormalized = componentsLibInput.replaceAll(' ', '').toLowerCase()
-    let result = { ...componentsLib }
+    const searchInputNormalized = componentsLibInput
+      .replaceAll(' ', '')
+      .toLowerCase()
+    let result = [...componentsCardsList]
 
     // filter by search (case-insensitive, whitespace-insensitive)
-    result = componentsLib.filter((component) =>
-      component.type.replaceAll(' ', '').toLowerCase().includes(inputNormalized)
+    result = result.filter((component) =>
+      component.type
+        .replaceAll(' ', '')
+        .toLowerCase()
+        .includes(searchInputNormalized)
     )
 
     return result
-  }, [componentsLibInput])
+  }, [componentsLibInput, componentsCardsList])
 
   // RENDER
   if (!pageForm) {
