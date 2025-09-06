@@ -1,0 +1,1 @@
+export { generateNewInput } from './generateNewInput'

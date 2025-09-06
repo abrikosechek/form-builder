@@ -1,0 +1,1 @@
+export { componentsCardsList } from './ComponentCards'

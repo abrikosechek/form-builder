@@ -5,7 +5,7 @@ import { RadioGroup } from 'radix-ui'
 
 interface Props {
   name?: string
-  title?: string | null
+  label?: string | null
   children?: ReactNode
   value?: string | null | undefined
   disabled?: boolean
@@ -13,7 +13,7 @@ interface Props {
 }
 
 export const Radio = ({
-  title,
+  label,
   name,
   value,
   onChange,
@@ -22,7 +22,7 @@ export const Radio = ({
 }: Props) => {
   return (
     <div className={`${styles.radioContainer} ${inputStyles.input}`}>
-      {title && <p className={styles.title}>{title}</p>}
+      {label && <p className={styles.title}>{label}</p>}
 
       <RadioGroup.Root
         className={styles.radioGroup}

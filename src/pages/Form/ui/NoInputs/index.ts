@@ -1,0 +1,1 @@
+export { NoInputs } from './NoInputs'

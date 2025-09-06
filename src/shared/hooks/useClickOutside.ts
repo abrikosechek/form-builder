@@ -1,22 +1,46 @@
-import { RefObject, useEffect } from 'react'
+import { type RefObject, useEffect, useRef } from 'react'
 
 export const useClickOutside = (
   ref: RefObject<HTMLElement | null>,
   handleOnClickOutside: (event: MouseEvent | TouchEvent) => void
 ) => {
+  const isMouseDownOutside = useRef(false)
+  const activeEvent = useRef<MouseEvent | TouchEvent | null>(null)
+
   useEffect(() => {
-    const listener = (event: MouseEvent | TouchEvent) => {
+    const handleMouseDown = (event: MouseEvent | TouchEvent) => {
       if (!ref.current || ref.current.contains(event.target as Node)) {
+        isMouseDownOutside.current = false
         return
       }
-      handleOnClickOutside(event)
+      isMouseDownOutside.current = true
+      activeEvent.current = event
     }
 
-    document.addEventListener('mousedown', listener)
-    document.addEventListener('touchstart', listener)
+    const handleMouseUp = (event: MouseEvent | TouchEvent) => {
+      if (isMouseDownOutside.current) {
+        // Check again on mouseup to ensure the target is still outside
+        if (!ref.current || ref.current.contains(event.target as Node)) {
+          return
+        }
+        handleOnClickOutside(activeEvent.current || event)
+      }
+
+      // Reset state
+      isMouseDownOutside.current = false
+      activeEvent.current = null
+    }
+
+    document.addEventListener('mousedown', handleMouseDown)
+    document.addEventListener('touchstart', handleMouseDown)
+    document.addEventListener('mouseup', handleMouseUp)
+    document.addEventListener('touchend', handleMouseUp)
+
     return () => {
-      document.removeEventListener('mousedown', listener)
-      document.removeEventListener('touchstart', listener)
+      document.removeEventListener('mousedown', handleMouseDown)
+      document.removeEventListener('touchstart', handleMouseDown)
+      document.removeEventListener('mouseup', handleMouseUp)
+      document.removeEventListener('touchend', handleMouseUp)
     }
   }, [ref, handleOnClickOutside])
 }

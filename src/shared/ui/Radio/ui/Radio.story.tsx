@@ -14,12 +14,12 @@ const meta = {
   component: Radio,
   argTypes: {
     name: { control: 'text' },
-    title: { control: 'text' },
+    label: { control: 'text' },
     onChange: { action: 'changed' },
   },
   args: {
     name: 'radio',
-    title: null,
+    label: null,
   },
 } satisfies Meta<typeof Radio>
 export default meta

@@ -5,12 +5,15 @@ import { Aside } from '@/features/Aside'
 import { useFormsStore } from '@/entities/Forms'
 import { useEffect } from 'react'
 import { ModalProvider } from '@/app/providers/ModalProvider'
+import { useInputsStore } from '@/entities/Inputs'
 
 export const RootLayout = () => {
-  const { getForms } = useFormsStore()
+  const { loadForms } = useFormsStore()
+  const { loadInputs } = useInputsStore()
 
   useEffect(() => {
-    getForms()
+    loadForms()
+    loadInputs()
   }, [])
 
   return (

@@ -1,14 +1,23 @@
-import styles from './index.module.scss'
-import { RadioItem } from '@/shared/ui'
-import { ComponentCard, WorkbenchCard } from './ui'
-import { Checkbox, Input, Radio, Select } from '@/shared/ui'
+import styles from './FormPage.module.scss'
 import { useEffect, useMemo, useRef, useState } from 'react'
-import { useFormsStore } from '@/entities/Forms'
 import { useParams } from 'react-router'
+import { NoInputs } from './NoInputs'
+import { ComponentCard } from './ComponentCard'
+import { WorkbenchCard } from './WorkbenchCard'
+import { FormPreview } from './FormPreview'
+import { componentsCardsList } from '../consts'
+import { useFormsStore } from '@/entities/Forms'
+import { useInputsStore } from '@/entities/Inputs'
 import type { InputTypes, TInput } from '@/shared/types/inputs'
-import { useClickOutside } from '@/shared/hooks/useClickOutside'
-import { SelectItem } from '@/shared/ui/Select'
-import { componentsCardsList } from './consts/ComponentCards'
+import { useClickOutside } from '@/shared/hooks'
+import {
+  Checkbox,
+  Input,
+  Radio,
+  Select,
+  SelectItem,
+  RadioItem,
+} from '@/shared/ui'
 
 const WorkbenchCardContent = (props: TInput) => {
   return (
@@ -16,7 +25,12 @@ const WorkbenchCardContent = (props: TInput) => {
       {props.type === 'input' ? (
         <Input {...props.params} disabled />
       ) : props.type === 'checkbox' ? (
-        <Checkbox {...props.params} disabled />
+        <Checkbox
+          {...props.params}
+          label={props.params.label}
+          checked={props.params.value}
+          disabled
+        />
       ) : props.type === 'radio' ? (
         <Radio {...props.params} disabled>
           {props.options.map((item) => (
@@ -43,12 +57,14 @@ const WorkbenchCardContent = (props: TInput) => {
 export const FormPage = () => {
   // route params, zustand
   let { pageFormName } = useParams()
-  const { addInput, removeInput, editInput, formById } = useFormsStore()
+  const { formById } = useFormsStore()
+  const { addInput, removeInput, editInput, inputsByForm } = useInputsStore()
 
-  // page form
+  // page form, inputs
   const pageForm = formById(pageFormName || '')
+  const formInputs = inputsByForm(pageFormName || '')
 
-  // newInputCard
+  // create new input
   const [newInputCardState, setNewInputCardState] = useState<null | InputTypes>(
     null
   )
@@ -108,7 +124,7 @@ export const FormPage = () => {
   }, [componentsLibInput, componentsCardsList])
 
   // RENDER
-  if (!pageForm) {
+  if (!pageForm || !formInputs) {
     return <h1>No such form</h1>
   }
 
@@ -139,42 +155,43 @@ export const FormPage = () => {
 
       {/* workbench */}
       <section className={styles.workbench}>
-        {/* form inputs */}
-        {Object.entries(pageForm.inputs).map(([inputKey, inputValue]) => (
-          <WorkbenchCard
-            key={inputKey}
-            formName={pageFormName || ''}
-            title={inputValue.type}
-            id={inputKey}
-            onDelete={() => removeInput(pageFormName || '', inputKey)}
-            onRenameInput={(newId) =>
-              editInput(pageFormName || '', inputKey, newId, inputValue)
-            }
-          >
-            <WorkbenchCardContent {...inputValue} />
-          </WorkbenchCard>
-        ))}
+        {formInputs.length === 0 && !newInputCardState ? (
+          <NoInputs />
+        ) : (
+          <>
+            {/* form inputs */}
+            {formInputs.map(([inputKey, inputValue]) => (
+              <WorkbenchCard
+                key={inputKey}
+                formName={pageFormName || ''}
+                title={inputValue.type}
+                id={inputKey}
+                onDelete={() => removeInput(pageFormName || '', inputKey)}
+                onRenameInput={(newId) =>
+                  editInput(pageFormName || '', inputKey, newId, inputValue)
+                }
+              >
+                <WorkbenchCardContent {...inputValue} />
+              </WorkbenchCard>
+            ))}
 
-        {/* add form input */}
-        {newInputCardState && (
-          <WorkbenchCard
-            add
-            formName={pageFormName || ''}
-            title={newInputCardState}
-            ref={newInputCardEl}
-            onCreateInput={(id) => createNewInput(id)}
-            onCancel={() => setNewInputCardState(null)}
-          />
+            {/* add form input */}
+            {newInputCardState && (
+              <WorkbenchCard
+                add
+                formName={pageFormName || ''}
+                title={newInputCardState}
+                ref={newInputCardEl}
+                onCreateInput={(id) => createNewInput(id)}
+                onCancel={() => setNewInputCardState(null)}
+              />
+            )}
+          </>
         )}
       </section>
 
       {/* form preview */}
-      <section className={styles.formPreview}>
-        <h2 className={styles.formPreview__title}>Form preview</h2>
-
-        <Input />
-        <Checkbox label="Are you sure?" />
-      </section>
+      <FormPreview inputs={formInputs} />
     </div>
   )
 }

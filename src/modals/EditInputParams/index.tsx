@@ -1,36 +1,25 @@
-import { useFormsStore } from '@/entities/Forms'
 import styles from './index.module.scss'
-import { useModalStore } from '@/shared/model/Modal'
-import { Modal, Button, Input, Checkbox } from '@/shared/ui'
+import { useRef, useState } from 'react'
+import { OptionBadge } from './ui'
+import { useInputsStore } from '@/entities/Inputs'
 import {
   inputHasOptions,
   InputParamsMap,
   InputTypes,
   type InputOptions,
 } from '@/shared/types/inputs'
-import { useRef, useState } from 'react'
-import { OptionBadge } from './ui'
 import { useClickOutside } from '@/shared/hooks/useClickOutside'
+import { useModalStore } from '@/shared/model/Modal'
+import { Modal, Button, Input, Checkbox } from '@/shared/ui'
 
 interface Props {
   formName: string
   inputId: string
 }
 
-/*
-  цель: Поменять/добавить/удалить поля
-
-  1) поля могут быть: обязательными/опциональными
-      - примитивы в params, у некоторых типов полей  "options: string[]" поле
-
-  2) как создать типизацию options, params:
-      - достать из TInput.params по formType
-      - создать тип со всеми полями, каждое значение/ключ опционально
-*/
-
 export const EditInputParamsModal = ({ formName, inputId }: Props) => {
   const { setModal } = useModalStore()
-  const { inputById, editInput } = useFormsStore()
+  const { inputById, editInput } = useInputsStore()
 
   const modalInput = inputById(formName, inputId)
 

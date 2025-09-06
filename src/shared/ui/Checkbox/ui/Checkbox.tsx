@@ -1,9 +1,8 @@
 import styles from './Checkbox.module.scss'
 import { Switch } from 'radix-ui'
-import type { ChangeEvent } from 'react'
 
 type Props = {
-  label?: string | null
+  label?: string
   disabled?: boolean
   checked?: boolean
   onChange?: (e: boolean) => void

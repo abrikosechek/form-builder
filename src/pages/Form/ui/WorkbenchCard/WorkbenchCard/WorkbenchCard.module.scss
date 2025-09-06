@@ -69,63 +69,6 @@
   }
 }
 
-.workbenchCardId {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  width: 100%;
-  margin-top: 12px;
-  padding: 0 20px;
-
-  &__button {
-    width: 24px;
-    height: 24px;
-    background: transparent;
-    border: none;
-    cursor: pointer;
-
-    & > svg {
-      width: 100%;
-      height: 100%;
-    }
-
-    &--edit {
-      & > svg {
-        fill: var(--secondary);
-        stroke: var(--secondary);
-      }
-    }
-    &--submit {
-      & > svg {
-        fill: var(--success);
-        stroke: var(--success);
-      }
-    }
-    &--cancel {
-      & > svg {
-        fill: var(--primary);
-        stroke: var(--primary);
-      }
-    }
-  }
-
-  &__text {
-    color: var(--text-inactive);
-    font-style: italic;
-    font-size: 24px;
-  }
-
-  &__input {
-    flex: 1 1 auto;
-    background: transparent;
-    border: none;
-    border-bottom: 1px solid var(--text);
-    color: var(--text);
-    outline: none;
-    font-size: 20px;
-  }
-}
-
 .workbenchCardEdit {
   display: flex;
   align-items: center;

@@ -29,6 +29,10 @@ body {
   font-family: Inter, sans-serif, Arial, Helvetica;
 }
 
+.text-nowrap {
+  white-space: nowrap;
+}
+
 .container {
   background: var(--bg-light);
   border-radius: 8px;

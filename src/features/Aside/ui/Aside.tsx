@@ -8,11 +8,13 @@ import { useModalStore } from '@/shared/model/Modal'
 import { Button } from '@/shared/ui'
 
 const AsideList = React.memo(function AsideList() {
-  const { forms } = useFormsStore()
+  const { orderedForms } = useFormsStore()
+
+  const forms = orderedForms()
 
   return (
     <div className={styles.aside__list}>
-      {Object.entries(forms).map(([formKey, formValue]) => (
+      {forms.map(([formKey]) => (
         <NavLink
           key={formKey}
           className={styles.asideListItem}

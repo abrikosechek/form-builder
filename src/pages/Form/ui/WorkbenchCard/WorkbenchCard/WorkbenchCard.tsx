@@ -1,103 +1,14 @@
 import styles from './WorkbenchCard.module.scss'
-import { ReactNode, RefObject, useEffect, useRef, useState } from 'react'
+import { ReactNode, RefObject, useState } from 'react'
 import {
-  CheckIcon,
   Cross1Icon,
   HamburgerMenuIcon,
   MixerHorizontalIcon,
-  Pencil2Icon,
   TrashIcon,
 } from '@radix-ui/react-icons'
-import { useModalStore } from '@/shared/model/Modal'
+import { WorkbenchCardId } from '../WorkbenchCardId'
 import { EditInputParamsModal } from '@/modals/EditInputParams'
-
-interface WorkbenchCardIdProps {
-  id?: string
-  isEdit?: boolean
-  cancelButton?: boolean
-  onSubmit?: (inputValue: string) => void
-  onEnableEdit?: () => void
-  onCancel?: () => void
-}
-
-const WorkbenchCardId = ({
-  id,
-  isEdit = false,
-  cancelButton = false,
-  onSubmit,
-  onEnableEdit,
-  onCancel,
-}: WorkbenchCardIdProps) => {
-  if (isEdit) {
-    const [input, setInput] = useState(id || '')
-    const inputEl = useRef<HTMLInputElement>(null)
-
-    useEffect(() => {
-      inputEl.current?.focus()
-    }, [isEdit])
-
-    const submit = () => {
-      const newIdNormalized = input.replaceAll(' ', '')
-
-      if (!newIdNormalized) {
-        console.error('Id input is empty')
-        return
-      }
-
-      onSubmit?.(newIdNormalized)
-    }
-
-    return (
-      <form
-        className={styles.workbenchCardId}
-        onSubmit={(e) => {
-          e.preventDefault()
-          submit()
-        }}
-      >
-        <button
-          className={`${styles.workbenchCardId__button} ${styles['workbenchCardId__button--submit']}`}
-          type="submit"
-        >
-          <CheckIcon />
-        </button>
-
-        <input
-          ref={inputEl}
-          className={styles.workbenchCardId__input}
-          type="text"
-          placeholder="id"
-          maxLength={150}
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
-        />
-
-        {cancelButton && (
-          <button
-            className={`${styles.workbenchCardId__button} ${styles['workbenchCardId__button--cancel']}`}
-            type="button"
-            onClick={() => onCancel?.()}
-          >
-            <Cross1Icon />
-          </button>
-        )}
-      </form>
-    )
-  } else {
-    return (
-      <div className={styles.workbenchCardId}>
-        <button
-          className={`${styles.workbenchCardId__button} ${styles['workbenchCardId__button--edit']}`}
-          onClick={() => onEnableEdit?.()}
-        >
-          <Pencil2Icon />
-        </button>
-
-        <p className={styles.workbenchCardId__text}>#{id}</p>
-      </div>
-    )
-  }
-}
+import { useModalStore } from '@/shared/model/Modal'
 
 interface Props {
   id?: string
@@ -189,7 +100,9 @@ export const WorkbenchCard = ({
           className={styles.workbenchCardEdit}
           onClick={() =>
             setModal({
-              el: <EditInputParamsModal formName={formName} inputId={id || ''} />,
+              el: (
+                <EditInputParamsModal formName={formName} inputId={id || ''} />
+              ),
             })
           }
         >

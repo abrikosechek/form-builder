@@ -1,0 +1,1 @@
+export { useInputsStore } from './model'
