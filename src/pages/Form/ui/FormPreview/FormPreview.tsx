@@ -1,4 +1,5 @@
 import styles from './FormPreview.module.scss'
+import pageSectionStyles from '../../styles/page-section.module.scss'
 import { useState, useEffect } from 'react'
 import { TInput } from '@/shared/types/inputs'
 import {
@@ -36,7 +37,11 @@ export const FormPreview = ({ inputs }: Props) => {
 
   return (
     <section className={styles.formPreview}>
-      <h2 className={styles.formPreview__title}>Form preview</h2>
+      <h2
+        className={` ${pageSectionStyles['page-section__title']} ${styles.formPreview__title}`}
+      >
+        Form preview
+      </h2>
 
       {inputsList.map(([inputId, inputValue]) =>
         inputValue.type === 'input' ? (

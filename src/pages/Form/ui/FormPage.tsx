@@ -1,5 +1,7 @@
 import styles from './FormPage.module.scss'
+import pageSectionStyles from '../styles/page-section.module.scss'
 import { useEffect, useMemo, useRef, useState } from 'react'
+import { CodeIcon } from '@radix-ui/react-icons'
 import { useParams } from 'react-router'
 import { NoInputs } from './NoInputs'
 import { ComponentCard } from './ComponentCard'
@@ -17,6 +19,7 @@ import {
   Select,
   SelectItem,
   RadioItem,
+  Button,
 } from '@/shared/ui'
 
 const WorkbenchCardContent = (props: TInput) => {
@@ -132,7 +135,11 @@ export const FormPage = () => {
     <div className={styles.page}>
       {/* components lib */}
       <section className={styles.components}>
-        <h2 className={styles.components__title}>Components</h2>
+        <h2
+          className={` ${pageSectionStyles['page-section__title']} ${styles.components__title}`}
+        >
+          Components
+        </h2>
         <input
           className={styles.components__inputSearch}
           type="text"
@@ -141,6 +148,33 @@ export const FormPage = () => {
           onChange={(e) => setComponentsLibInput(e.target.value)}
         />
         <div className={styles.components__list}>
+          {componentsLibFiltered.map((component) => (
+            <ComponentCard
+              key={component.type}
+              name={component.type}
+              onClick={() => setNewInputCardState(component.type)}
+            >
+              {component.content}
+            </ComponentCard>
+          ))}
+          {componentsLibFiltered.map((component) => (
+            <ComponentCard
+              key={component.type}
+              name={component.type}
+              onClick={() => setNewInputCardState(component.type)}
+            >
+              {component.content}
+            </ComponentCard>
+          ))}
+          {componentsLibFiltered.map((component) => (
+            <ComponentCard
+              key={component.type}
+              name={component.type}
+              onClick={() => setNewInputCardState(component.type)}
+            >
+              {component.content}
+            </ComponentCard>
+          ))}
           {componentsLibFiltered.map((component) => (
             <ComponentCard
               key={component.type}
@@ -159,33 +193,42 @@ export const FormPage = () => {
           <NoInputs />
         ) : (
           <>
-            {/* form inputs */}
-            {formInputs.map(([inputKey, inputValue]) => (
-              <WorkbenchCard
-                key={inputKey}
-                formName={pageFormName || ''}
-                title={inputValue.type}
-                id={inputKey}
-                onDelete={() => removeInput(pageFormName || '', inputKey)}
-                onRenameInput={(newId) =>
-                  editInput(pageFormName || '', inputKey, newId, inputValue)
-                }
-              >
-                <WorkbenchCardContent {...inputValue} />
-              </WorkbenchCard>
-            ))}
+            <div className={styles.workbench__list}>
+              {/* form inputs */}
+              {formInputs.map(([inputKey, inputValue]) => (
+                <WorkbenchCard
+                  key={inputKey}
+                  formName={pageFormName || ''}
+                  title={inputValue.type}
+                  id={inputKey}
+                  onDelete={() => removeInput(pageFormName || '', inputKey)}
+                  onRenameInput={(newId) =>
+                    editInput(pageFormName || '', inputKey, newId, inputValue)
+                  }
+                >
+                  <WorkbenchCardContent {...inputValue} />
+                </WorkbenchCard>
+              ))}
 
-            {/* add form input */}
-            {newInputCardState && (
-              <WorkbenchCard
-                add
-                formName={pageFormName || ''}
-                title={newInputCardState}
-                ref={newInputCardEl}
-                onCreateInput={(id) => createNewInput(id)}
-                onCancel={() => setNewInputCardState(null)}
-              />
-            )}
+              {/* add form input */}
+              {newInputCardState && (
+                <WorkbenchCard
+                  add
+                  formName={pageFormName || ''}
+                  title={newInputCardState}
+                  ref={newInputCardEl}
+                  onCreateInput={(id) => createNewInput(id)}
+                  onCancel={() => setNewInputCardState(null)}
+                />
+              )}
+            </div>
+
+            <div className={styles.workbench__footer}>
+              <Button>
+                Export
+                <CodeIcon />
+              </Button>
+            </div>
           </>
         )}
       </section>

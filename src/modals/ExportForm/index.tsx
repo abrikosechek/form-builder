@@ -8,7 +8,7 @@ interface Props {
   formId: string
 }
 
-export const EditInputParamsModal = ({ formId }: Props) => {
+export const ExportFormModal = ({ formId }: Props) => {
   const { setModal } = useModalStore()
   const { formById } = useFormsStore()
   const { inputsByForm } = useInputsStore()

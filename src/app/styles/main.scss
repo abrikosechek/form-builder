@@ -1,14 +1,20 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
 
+$colors: (
+  primary: #bd0856,
+  secondary: #4a79f3,
+  success: #20d416,
+  bg: #11161a,
+  bg-light: #151b20,
+  bg-light-2: #313f4b,
+  text: #eeeeee,
+  text-inactive: #a9adb5,
+);
+
 :root {
-  --primary: #bd0856;
-  --secondary: #4a79f3;
-  --success: #20d416;
-  --bg: #11161a;
-  --bg-light: #151b20;
-  --bg-light-2: #313f4b;
-  --text: #eeeeee;
-  --text-inactive: #a9adb5;
+  @each $name, $color in $colors {
+    --#{$name}: #{$color};
+  }
 }
 
 * {
