@@ -4,7 +4,7 @@ import { NavLink } from 'react-router'
 import { PlusIcon } from '@radix-ui/react-icons'
 import { CreateFormModal } from '@/modals/CreateForm'
 import { useFormsStore } from '@/entities/Forms'
-import { useModalStore } from '@/shared/model/Modal'
+import { useModalStore } from '@/shared/model'
 import { Button } from '@/shared/ui'
 
 const AsideList = React.memo(function AsideList() {

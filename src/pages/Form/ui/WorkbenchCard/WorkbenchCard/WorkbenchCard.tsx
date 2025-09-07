@@ -8,7 +8,7 @@ import {
 } from '@radix-ui/react-icons'
 import { WorkbenchCardId } from '../WorkbenchCardId'
 import { EditInputParamsModal } from '@/modals/EditInputParams'
-import { useModalStore } from '@/shared/model/Modal'
+import { useModalStore } from '@/shared/model'
 
 interface Props {
   id?: string

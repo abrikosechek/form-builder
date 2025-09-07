@@ -1,4 +1,4 @@
-import { useModalStore } from '@/shared/model/Modal'
+import { useModalStore } from '@/shared/model'
 import { ModalRoot } from '@/shared/ui'
 import { useEffect } from 'react'
 import { FocusTrap } from 'focus-trap-react'

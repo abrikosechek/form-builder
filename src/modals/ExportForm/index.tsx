@@ -1,7 +1,7 @@
 import styles from './index.module.scss'
 import { useInputsStore } from '@/entities/Inputs'
 import { useFormsStore } from '@/entities/Forms'
-import { useModalStore } from '@/shared/model/Modal'
+import { useModalStore } from '@/shared/model'
 import { Modal } from '@/shared/ui'
 
 interface Props {

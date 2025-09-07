@@ -1,7 +1,7 @@
 import styles from './NoForms.module.scss'
 import { Button } from '@/shared/ui'
 import { PlusIcon } from '@radix-ui/react-icons'
-import { useModalStore } from '@/shared/model/Modal'
+import { useModalStore } from '@/shared/model'
 import { CreateFormModal } from '@/modals/CreateForm'
 
 export const NoForms = () => {

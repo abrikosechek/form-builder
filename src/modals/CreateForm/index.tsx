@@ -1,6 +1,6 @@
 import styles from './index.module.scss'
 import { useNavigate } from 'react-router'
-import { useModalStore } from '@/shared/model/Modal'
+import { useModalStore } from '@/shared/model'
 import { Modal, Button, Input } from '@/shared/ui'
 import { useState } from 'react'
 import { useFormsStore } from '@/entities/Forms'

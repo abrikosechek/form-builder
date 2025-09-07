@@ -8,8 +8,10 @@ import { ComponentCard } from './ComponentCard'
 import { WorkbenchCard } from './WorkbenchCard'
 import { FormPreview } from './FormPreview'
 import { componentsCardsList } from '../consts'
+import { ExportFormModal } from '@/modals/ExportForm'
 import { useFormsStore } from '@/entities/Forms'
 import { useInputsStore } from '@/entities/Inputs'
+import { useModalStore } from '@/shared/model'
 import type { InputTypes, TInput } from '@/shared/types/inputs'
 import { useClickOutside } from '@/shared/hooks'
 import {
@@ -62,6 +64,7 @@ export const FormPage = () => {
   let { pageFormName } = useParams()
   const { formById } = useFormsStore()
   const { addInput, removeInput, editInput, inputsByForm } = useInputsStore()
+  const { setModal } = useModalStore()
 
   // page form, inputs
   const pageForm = formById(pageFormName || '')
@@ -157,33 +160,6 @@ export const FormPage = () => {
               {component.content}
             </ComponentCard>
           ))}
-          {componentsLibFiltered.map((component) => (
-            <ComponentCard
-              key={component.type}
-              name={component.type}
-              onClick={() => setNewInputCardState(component.type)}
-            >
-              {component.content}
-            </ComponentCard>
-          ))}
-          {componentsLibFiltered.map((component) => (
-            <ComponentCard
-              key={component.type}
-              name={component.type}
-              onClick={() => setNewInputCardState(component.type)}
-            >
-              {component.content}
-            </ComponentCard>
-          ))}
-          {componentsLibFiltered.map((component) => (
-            <ComponentCard
-              key={component.type}
-              name={component.type}
-              onClick={() => setNewInputCardState(component.type)}
-            >
-              {component.content}
-            </ComponentCard>
-          ))}
         </div>
       </section>
 
@@ -224,7 +200,13 @@ export const FormPage = () => {
             </div>
 
             <div className={styles.workbench__footer}>
-              <Button>
+              <Button
+                onClick={() =>
+                  setModal({
+                    el: <ExportFormModal formId={pageFormName || ''} />,
+                  })
+                }
+              >
                 Export
                 <CodeIcon />
               </Button>

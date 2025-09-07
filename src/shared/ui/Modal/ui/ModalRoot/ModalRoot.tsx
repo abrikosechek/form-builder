@@ -1,5 +1,5 @@
 import styles from './ModalRoot.module.scss'
-import { useModalStore } from '@/shared/model/Modal'
+import { useModalStore } from '@/shared/model'
 import { MouseEvent, ReactNode, RefObject, useRef } from 'react'
 
 interface Props {

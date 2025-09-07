@@ -1,5 +1,5 @@
 import styles from './Modal.module.scss'
-import { useModalStore } from '@/shared/model/Modal'
+import { useModalStore } from '@/shared/model'
 import { Cross1Icon } from '@radix-ui/react-icons'
 import { ReactNode } from 'react'
 

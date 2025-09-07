@@ -9,7 +9,7 @@ import {
   type InputOptions,
 } from '@/shared/types/inputs'
 import { useClickOutside } from '@/shared/hooks/useClickOutside'
-import { useModalStore } from '@/shared/model/Modal'
+import { useModalStore } from '@/shared/model'
 import { Modal, Button, Input, Checkbox } from '@/shared/ui'
 
 interface Props {
