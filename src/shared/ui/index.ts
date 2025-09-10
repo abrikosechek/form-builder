@@ -1,4 +1,5 @@
 export { Button } from './Button'
+export { Code } from './Code'
 export { Checkbox } from './Checkbox'
 export { Input } from './Input'
 export { Radio, RadioItem } from './Radio'
