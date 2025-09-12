@@ -21,12 +21,23 @@ export const Code = ({ tabs, initTab }: Props) => {
     return tabs.find((tab) => tab.name === selectedTabName)
   }, [tabs, selectedTabName])
 
+  const copyText = () => {
+    if (!selectedTab) return
+
+    navigator.clipboard.writeText(selectedTab.text)
+  }
+
   return (
     <div className={styles.code}>
       {/* header (tabs) */}
       <div className={styles.code__header}>
         {tabs.map((tab) => (
-          <CodeTab active={selectedTabName === tab.name}>{tab.name}</CodeTab>
+          <CodeTab
+            active={selectedTabName === tab.name}
+            onClick={() => setSelectedTabName(tab.name)}
+          >
+            {tab.name}
+          </CodeTab>
         ))}
       </div>
 
@@ -39,7 +50,7 @@ export const Code = ({ tabs, initTab }: Props) => {
         </div>
 
         {/* copy button */}
-        <button className={styles['copy-button']}>
+        <button className={styles['copy-button']} onClick={() => copyText()}>
           <ClipboardIcon className={styles['copy-button__icon']} />
         </button>
       </div>

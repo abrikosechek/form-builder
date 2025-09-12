@@ -1,0 +1,1 @@
+export { generateFormText } from './generateFormText'

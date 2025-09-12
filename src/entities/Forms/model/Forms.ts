@@ -68,10 +68,7 @@ export const useFormsStore = create<Store>()(
       if (formId in state.forms)
         throw new Error(`Form with this id "${formId}" exists`)
 
-      const newForm: Form = {
-        inputs: {},
-        inputsOrder: [],
-      }
+      const newForm = {}
 
       set({
         forms: {

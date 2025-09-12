@@ -166,18 +166,24 @@ export const useInputsStore = create<Store>()(
       get().saveInputs()
     },
 
-    editInput: (formId, inputId, newInputId, newInput) => {
+    editInput: (formId, inputId, newInputId, newInputValue) => {
       const state = get()
       const formInputs = state.inputs[formId]
 
       if (!formInputs)
         throw new Error(`Form with id "${formId}" does not exist`)
       if (!formInputs.inputs[inputId])
-        throw new Error(`Input with id "${formId}" already exists`)
-      if (inputId !== newInputId && formInputs.inputs[inputId])
+        throw new Error(`No input with id "${inputId}"`)
+      if (inputId !== newInputId && formInputs.inputs[newInputId])
         throw new Error(`Input with id "${newInputId}" already exists!`)
 
       const { [inputId]: input, ...otherInputs } = formInputs.inputs
+
+      const inputOrderIndex = formInputs.inputsOrder.findIndex(
+        (item) => item === inputId
+      )
+      let newInputsOrder = structuredClone(formInputs.inputsOrder)
+      newInputsOrder[inputOrderIndex] = newInputId
 
       set({
         inputs: {
@@ -186,8 +192,9 @@ export const useInputsStore = create<Store>()(
             ...formInputs,
             inputs: {
               ...otherInputs,
-              [newInputId]: newInput,
+              [newInputId]: newInputValue,
             },
+            inputsOrder: newInputsOrder,
           },
         },
       })
