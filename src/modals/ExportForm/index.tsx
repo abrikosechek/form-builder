@@ -1,7 +1,4 @@
-import styles from './index.module.scss'
 import { useInputsStore } from '@/entities/Inputs'
-import { useFormsStore } from '@/entities/Forms'
-import { useModalStore } from '@/shared/model'
 import { Modal } from '@/shared/ui'
 import { Code } from '@/shared/ui/Code'
 import { generateFormText } from './utils'
@@ -11,8 +8,6 @@ interface Props {
 }
 
 export const ExportFormModal = ({ formId }: Props) => {
-  const { setModal } = useModalStore()
-  const { formById } = useFormsStore()
   const { inputsByForm } = useInputsStore()
 
   const formInputs = inputsByForm(formId)
@@ -21,11 +16,6 @@ export const ExportFormModal = ({ formId }: Props) => {
     {
       name: 'HTML',
       text: generateFormText(formId, formInputs || []),
-    },
-    {
-      name: 'React',
-      text: `
-      a`,
     },
   ]
 

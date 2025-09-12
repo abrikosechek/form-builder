@@ -43,5 +43,7 @@ export const generateFormText = (
       inputsString + (index > 0 ? `\n` : '') + generateInputText(formId, input)
   })
 
-  return inputsString
+  return `<form>
+  ${inputsString}
+</form>`
 }
