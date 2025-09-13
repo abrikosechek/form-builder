@@ -107,3 +107,22 @@
     }
   }
 }
+
+@include respond-below('xl') {
+  .components {
+    &__title {
+      margin: 12px 6px 0;
+    }
+
+    &__inputSearch {
+      height: 50px;
+      margin-top: 14px;
+      font-size: 24px;
+    }
+
+    &__list {
+      gap: 16px;
+      margin-top: 4px;
+    }
+  }
+}

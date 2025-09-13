@@ -1,3 +1,5 @@
+@use '@/shared/styles/breakpoints.module.scss' as *;
+
 .componentCard {
   position: relative;
   width: 100%;
@@ -63,5 +65,65 @@
   &__content {
     flex: 1 1 auto;
     margin-top: 12px;
+  }
+}
+
+@include respond-below("xl") {
+  .componentCard {
+    position: relative;
+    height: 165px;
+    padding: 14px;
+    background: var(--bg-light);
+    border: 1px solid var(--text);
+    border-radius: 10px;
+
+    &:hover {
+      transform: scale(1.03);
+      box-shadow: 0 0 20px 3px rgba(0, 0, 0.2);
+    }
+
+    &__buttonAdd {
+      position: absolute;
+      top: -2px;
+      right: -2px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+      background: var(--text);
+      border: 0;
+      border-radius: 0 0 0 8px;
+      cursor: pointer;
+
+      & > svg {
+        width: 35px;
+        height: 35px;
+        fill: var(--bg-light);
+        stroke: var(--bg-light);
+      }
+    }
+
+    &__icon {
+      width: 45px;
+      height: 45px;
+
+      & > svg {
+        width: 35px;
+        height: 35px;
+        fill: var(--bg-light);
+        stroke: var(--bg-light);
+      }
+    }
+
+    &__name {
+      margin-top: 10px;
+      font-size: 22px;
+    }
+
+    &__content {
+      flex: 1 1 auto;
+      margin-top: 12px;
+    }
   }
 }

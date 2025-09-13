@@ -1,5 +1,15 @@
+@use '@/shared/styles/breakpoints.module.scss' as *;
+
 .page-section__title {
   text-align: center;
   font-size: 32px;
   font-weight: 500;
+}
+
+@include respond-below("xl") {
+  .page-section__title {
+    text-align: center;
+    font-size: 26px;
+    font-weight: 500;
+  }
 }
