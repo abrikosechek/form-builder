@@ -1,3 +1,5 @@
+@use './breakpoints.module.scss' as *;
+
 .inputContainer {
   display: flex;
   flex-direction: column;
@@ -18,4 +20,21 @@
   border-radius: 8px;
   color: var(--text);
   font-size: 24px;
+}
+
+@include respond-below('xl') {
+  .inputContainer {
+    gap: 4px;
+  }
+
+  .placeholder {
+    font-size: 20px;
+  }
+
+  .input {
+    height: 45px;
+    padding: 12px;
+    border-radius: 8px;
+    font-size: 20px;
+  }
 }

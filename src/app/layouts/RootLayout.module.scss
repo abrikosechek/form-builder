@@ -1,4 +1,4 @@
-@use '@/shared/styles/breakpoints.scss' as *;
+@use '@/shared/styles/breakpoints.module.scss' as *;
 
 .layout {
   display: grid;
@@ -28,5 +28,11 @@
     grid-template-rows: 50px 1fr;
     gap: 8px;
     padding: 12px;
+  }
+}
+
+@include respond-below('xl') {
+  .layout {
+    grid-template-columns: 260px 1fr;
   }
 }
