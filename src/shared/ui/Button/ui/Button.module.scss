@@ -1,3 +1,5 @@
+@use '@/shared/styles/breakpoints.module.scss' as *;
+
 .button {
   position: relative;
   display: flex;
@@ -41,5 +43,17 @@
   &.grey {
     color: var(--text-inactive);
     border-color: var(--text-inactive);
+  }
+}
+
+@include respond-below('xl') {
+  .button {
+    padding: 5px 8px;
+    font-size: 17px;
+
+    & > svg {
+      width: 18px;
+      height: 18px;
+    }
   }
 }
