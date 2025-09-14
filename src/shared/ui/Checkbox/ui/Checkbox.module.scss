@@ -1,3 +1,5 @@
+@use '@/shared/styles/breakpoints.module.scss' as *;
+
 .label {
   display: flex;
   align-items: center;
@@ -41,6 +43,31 @@
   }
 }
 
-.input {
-  display: none;
+@include respond-below('xl') {
+  .label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+
+    &__text {
+      font-size: 20px;
+      user-select: none;
+    }
+  }
+
+  .switch {
+    width: 50px;
+    height: 28px;
+
+    &__thumb {
+      left: 4px;
+      width: 20px;
+      height: 20px;
+
+      &[data-state='checked'] {
+        left: 22px;
+      }
+    }
+  }
 }
