@@ -39,7 +39,7 @@ export const Aside = () => {
   return (
     <div className={`${styles.aside} container`}>
       <div className={styles.aside__header}>
-        <p className={styles.aside__title}>Your forms</p>
+        <p className={styles.aside__title}>Forms</p>
 
         <Button onClick={() => openCreateFormModal()}>
           <PlusIcon />
