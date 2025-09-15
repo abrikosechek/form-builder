@@ -61,14 +61,12 @@ export const FormPage = () => {
   }, [newInputCardState])
 
   const [componentsLibInput, setComponentsLibInput] = useState('')
-  
   const componentsLibFiltered = useMemo(() => {
     const searchInputNormalized = componentsLibInput
       .replaceAll(' ', '')
       .toLowerCase()
     let result = [...componentsCardsList]
 
-    // filter by search (case-insensitive, whitespace-insensitive)
     result = result.filter((component) =>
       component.type
         .replaceAll(' ', '')
@@ -79,7 +77,6 @@ export const FormPage = () => {
     return result
   }, [componentsLibInput, componentsCardsList])
 
-  // RENDER
   if (!pageForm || !formInputs) {
     return <h1>No such form</h1>
   }
