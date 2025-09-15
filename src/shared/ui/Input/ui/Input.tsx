@@ -15,7 +15,7 @@ export const Input = ({
   onChange,
 }: Props) => {
   return (
-    <div className={inputsStyles.inputContainer}>
+    <div className={inputsStyles['input-container']}>
       {placeholder && <p className={inputsStyles.placeholder}>{placeholder}</p>}
 
       <input

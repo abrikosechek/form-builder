@@ -1,6 +1,6 @@
 @use '@/shared/styles/breakpoints.module.scss' as *;
 
-.selectItem {
+.select-item {
   display: flex;
   align-items: center;
   justify-content: flex-start;
@@ -11,7 +11,7 @@
 }
 
 @include respond-below('xl') {
-  .selectItem {
+  .select-item {
     height: 40px;
     font-size: 20px;
   }

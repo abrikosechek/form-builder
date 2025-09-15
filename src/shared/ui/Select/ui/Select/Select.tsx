@@ -20,7 +20,7 @@ export const Select = ({
   return (
     <DropdownMenu.Root>
       <DropdownMenu.Trigger asChild disabled={disabled}>
-        <button className={`${styles.selectTrigger} ${inputsStyles.input}`}>
+        <button className={`${styles['select-trigger']} ${inputsStyles.input}`}>
           <p>{value || 'Select'}</p>
           <CaretDownIcon />
         </button>
@@ -28,7 +28,7 @@ export const Select = ({
 
       <DropdownMenu.Portal>
         <DropdownMenu.Content
-          className={`${styles.selectContent} ${inputsStyles.input}`}
+          className={`${styles['select-content']} ${inputsStyles.input}`}
         >
           <DropdownMenu.RadioGroup value={value} onValueChange={onChange}>
             {children}

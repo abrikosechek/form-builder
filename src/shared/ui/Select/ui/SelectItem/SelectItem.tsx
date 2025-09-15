@@ -9,7 +9,7 @@ interface Props {
 
 export const SelectItem = ({ value, children }: Props) => {
   return (
-    <DropdownMenu.RadioItem className={styles.selectItem} value={value}>
+    <DropdownMenu.RadioItem className={styles['select-item']} value={value}>
       <p>{children}</p>
     </DropdownMenu.RadioItem>
   )

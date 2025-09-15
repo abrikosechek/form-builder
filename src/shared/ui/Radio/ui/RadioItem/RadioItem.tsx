@@ -12,11 +12,11 @@ export const RadioItem = ({ value, disabled = false, children }: Props) => {
   return (
     <label className={styles.label}>
       <RadioGroup.Item
-        className={styles.radioItem}
+        className={styles['radio-item']}
         value={value}
         disabled={disabled}
       >
-        <RadioGroup.Indicator className={styles.radioItem__indicator} />
+        <RadioGroup.Indicator className={styles['radio-item__indicator']} />
       </RadioGroup.Item>
 
       <p className={styles.label__text}>{children}</p>

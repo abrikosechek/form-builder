@@ -13,7 +13,7 @@
   }
 }
 
-.radioItem {
+.radio-item {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -41,7 +41,7 @@
 }
 
 @include respond-below('xl') {
-  .radioItem {
+  .radio-item {
     width: 20px;
     height: 20px;
 

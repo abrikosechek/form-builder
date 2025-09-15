@@ -1,6 +1,6 @@
 @use './breakpoints.module.scss' as *;
 
-.inputContainer {
+.input-container {
   display: flex;
   flex-direction: column;
   gap: 6px;
@@ -23,7 +23,7 @@
 }
 
 @include respond-below('xl') {
-  .inputContainer {
+  .input-container {
     gap: 4px;
   }
 

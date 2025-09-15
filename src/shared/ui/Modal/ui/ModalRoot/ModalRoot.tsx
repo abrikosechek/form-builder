@@ -17,7 +17,7 @@ export const ModalRoot = ({ children, ref }: Props) => {
   }
 
   return (
-    <div ref={ref} className={styles.modalRoot} onClick={handleRootClick}>
+    <div ref={ref} className={styles['modal-root']} onClick={handleRootClick}>
       {children}
     </div>
   )
