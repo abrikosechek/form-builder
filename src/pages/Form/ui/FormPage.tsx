@@ -128,18 +128,18 @@ export const FormPage = () => {
           <>
             <div className={styles.workbench__list}>
               {/* form inputs */}
-              {formInputs.map(([inputKey, inputValue]) => (
+              {formInputs.map((input) => (
                 <WorkbenchCard
-                  key={inputKey}
+                  key={input.id}
                   formName={pageFormName || ''}
-                  title={inputValue.type}
-                  id={inputKey}
-                  onDelete={() => removeInput(pageFormName || '', inputKey)}
+                  title={input.input.type}
+                  id={input.id}
+                  onDelete={() => removeInput(pageFormName || '', input.id)}
                   onRenameInput={(newId) =>
-                    editInput(pageFormName || '', inputKey, newId, inputValue)
+                    editInput(pageFormName || '', input.id, newId, input.input)
                   }
                 >
-                  <WorkbenchCardContent {...inputValue} />
+                  <WorkbenchCardContent {...input.input} />
                 </WorkbenchCard>
               ))}
 

@@ -15,7 +15,7 @@ export const ExportFormModal = ({ formId }: Props) => {
   const codeTabs = [
     {
       name: 'HTML',
-      text: generateFormText(formId, formInputs || []),
+      text: generateFormText(formInputs || []),
     },
   ]
 
