@@ -31,7 +31,9 @@ type Actions = {
 type Store = State & Actions
 
 type Computed = {
-  inputsByForm: (formId: string) => Array<[string, TInput]> | undefined
+  inputsByForm: (
+    formId: string
+  ) => Array<{ id: string; input: TInput }> | undefined
   inputById: (formId: string, inputId: string) => TInput | undefined
 }
 
@@ -43,10 +45,10 @@ const computed = createComputed(
 
       if (!formInputs) return undefined
 
-      return formInputs.inputsOrder.map((inputId) => [
-        inputId,
-        formInputsList[inputId],
-      ])
+      return formInputs.inputsOrder.map((inputId) => ({
+        id: inputId,
+        input: formInputsList[inputId],
+      }))
     },
 
     inputById: (formId, inputId) => state.inputs[formId]?.inputs[inputId],

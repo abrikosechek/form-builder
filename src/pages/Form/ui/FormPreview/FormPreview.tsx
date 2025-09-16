@@ -12,21 +12,21 @@ import {
 } from '@/shared/ui'
 
 type Props = {
-  inputs: Array<[string, TInput]>
+  inputs: Array<{ id: string; input: TInput }>
 }
 
 export const FormPreview = ({ inputs }: Props) => {
-  const [inputsList, setInputsList] = useState<Array<[string, TInput]>>(
-    structuredClone(inputs)
-  )
+  const [inputsList, setInputsList] = useState<
+    Array<{ id: string; input: TInput }>
+  >(structuredClone(inputs))
 
   const updateInputValue = (inputId: string, value: string | boolean) => {
-    let inputToUpdateId = inputsList.findIndex(([id]) => id === inputId)
+    let inputToUpdateId = inputsList.findIndex((input) => input.id === inputId)
 
     if (inputToUpdateId === -1) return
 
     let inputsListCopy = structuredClone(inputsList)
-    inputsListCopy[inputToUpdateId][1].params.value = value
+    inputsListCopy[inputToUpdateId].input.params.value = value
 
     setInputsList(inputsListCopy)
   }
@@ -43,40 +43,40 @@ export const FormPreview = ({ inputs }: Props) => {
         Form preview
       </h2>
 
-      {inputsList.map(([inputId, inputValue]) =>
-        inputValue.type === 'input' ? (
+      {inputsList.map((input) =>
+        input.input.type === 'input' ? (
           <Input
-            {...inputValue.params}
-            key={inputId}
-            value={inputValue.params.value}
-            onChange={(event) => updateInputValue(inputId, event.target.value)}
+            {...input.input.params}
+            key={input.id}
+            value={input.input.params.value}
+            onChange={(event) => updateInputValue(input.id, event.target.value)}
           />
-        ) : inputValue.type === 'checkbox' ? (
+        ) : input.input.type === 'checkbox' ? (
           <Checkbox
-            {...inputValue.params}
-            key={inputId}
-            checked={inputValue.params.value}
-            onChange={(value) => updateInputValue(inputId, value)}
+            {...input.input.params}
+            key={input.id}
+            checked={input.input.params.value}
+            onChange={(value) => updateInputValue(input.id, value)}
           />
-        ) : inputValue.type === 'radio' ? (
+        ) : input.input.type === 'radio' ? (
           <Radio
-            {...inputValue.params}
-            key={inputId}
-            value={inputValue.params.value}
-            onChange={(value) => updateInputValue(inputId, value)}
+            {...input.input.params}
+            key={input.id}
+            value={input.input.params.value}
+            onChange={(value) => updateInputValue(input.id, value)}
           >
-            {inputValue.options.map((option) => (
+            {input.input.options.map((option) => (
               <RadioItem value={option}>{option}</RadioItem>
             ))}
           </Radio>
-        ) : inputValue.type === 'select' ? (
+        ) : input.input.type === 'select' ? (
           <Select
-            {...inputValue.params}
-            key={inputId}
-            value={inputValue.params.value}
-            onChange={(value) => updateInputValue(inputId, value)}
+            {...input.input.params}
+            key={input.id}
+            value={input.input.params.value}
+            onChange={(value) => updateInputValue(input.id, value)}
           >
-            {inputValue.options.map((option) => (
+            {input.input.options.map((option) => (
               <SelectItem value={option}>{option}</SelectItem>
             ))}
           </Select>

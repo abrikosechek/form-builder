@@ -122,25 +122,25 @@ export const FormPage = () => {
                 {/* form inputs */}
                 <DndContext collisionDetection={closestCorners}>
                   <SortableContext>
-                    {formInputs.map(([inputKey, inputValue]) => (
+                    {formInputs.map((input) => (
                       <WorkbenchCard
-                        key={inputKey}
+                        key={input.id}
                         formName={pageFormName || ''}
-                        title={inputValue.type}
-                        id={inputKey}
+                        title={input.input.type}
+                        id={input.id}
                         onDelete={() =>
-                          removeInput(pageFormName || '', inputKey)
+                          removeInput(pageFormName || '', input.id)
                         }
                         onRenameInput={(newId) =>
                           editInput(
                             pageFormName || '',
-                            inputKey,
+                            input.id,
                             newId,
-                            inputValue
+                            input.input
                           )
                         }
                       >
-                        <WorkbenchCardContent {...inputValue} />
+                        <WorkbenchCardContent {...input.input} />
                       </WorkbenchCard>
                     ))}
                   </SortableContext>

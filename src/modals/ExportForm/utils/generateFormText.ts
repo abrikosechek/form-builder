@@ -1,9 +1,6 @@
 import { TInput } from '@/shared/types/inputs'
 
-const generateInputText = (formId: string, input: [string, TInput]): string => {
-  const inputId = input[0]
-  const inputObject = input[1]
-
+const generateInputText = (inputId: string, inputObject: TInput): string => {
   switch (inputObject.type) {
     case 'input':
       return `<input name="${inputId}" value="${inputObject.params.value}" placeholder="${inputObject.params.placeholder}" />`
@@ -33,17 +30,18 @@ const generateInputText = (formId: string, input: [string, TInput]): string => {
 }
 
 export const generateFormText = (
-  formId: string,
-  inputs: Array<[string, TInput]>
+  inputs: Array<{ id: string; input: TInput }>
 ): string => {
   let inputsString = ``
 
   inputs.forEach((input, index) => {
     inputsString =
-      inputsString + (index > 0 ? `\n` : '') + generateInputText(formId, input)
+      inputsString +
+      (index > 0 ? `\n` : '') +
+      generateInputText(input.id, input.input)
   })
 
   return `<form>
-  ${inputsString}
+${inputsString}
 </form>`
 }
