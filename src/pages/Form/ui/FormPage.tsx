@@ -15,7 +15,8 @@ import { useModalStore } from '@/shared/model'
 import type { InputTypes, TInput } from '@/shared/types/inputs'
 import { useClickOutside } from '@/shared/hooks'
 import { Button } from '@/shared/ui'
-import { DndContext } from '@dnd-kit/core'
+import { closestCorners, DndContext } from '@dnd-kit/core'
+import { SortableContext } from '@dnd-kit/sortable'
 
 export const FormPage = () => {
   let { pageFormName } = useParams()
@@ -119,20 +120,31 @@ export const FormPage = () => {
             <>
               <div className={styles.workbench__list}>
                 {/* form inputs */}
-                {formInputs.map(([inputKey, inputValue]) => (
-                  <WorkbenchCard
-                    key={inputKey}
-                    formName={pageFormName || ''}
-                    title={inputValue.type}
-                    id={inputKey}
-                    onDelete={() => removeInput(pageFormName || '', inputKey)}
-                    onRenameInput={(newId) =>
-                      editInput(pageFormName || '', inputKey, newId, inputValue)
-                    }
-                  >
-                    <WorkbenchCardContent {...inputValue} />
-                  </WorkbenchCard>
-                ))}
+                <DndContext collisionDetection={closestCorners}>
+                  <SortableContext>
+                    {formInputs.map(([inputKey, inputValue]) => (
+                      <WorkbenchCard
+                        key={inputKey}
+                        formName={pageFormName || ''}
+                        title={inputValue.type}
+                        id={inputKey}
+                        onDelete={() =>
+                          removeInput(pageFormName || '', inputKey)
+                        }
+                        onRenameInput={(newId) =>
+                          editInput(
+                            pageFormName || '',
+                            inputKey,
+                            newId,
+                            inputValue
+                          )
+                        }
+                      >
+                        <WorkbenchCardContent {...inputValue} />
+                      </WorkbenchCard>
+                    ))}
+                  </SortableContext>
+                </DndContext>
 
                 {/* add form input */}
                 {newInputCardState && (
