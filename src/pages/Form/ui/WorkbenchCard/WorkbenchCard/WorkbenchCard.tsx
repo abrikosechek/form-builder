@@ -9,13 +9,14 @@ import {
 import { WorkbenchCardId } from '../WorkbenchCardId'
 import { EditInputParamsModal } from '@/modals/EditInputParams'
 import { useModalStore } from '@/shared/model'
+import { useSortable } from '@dnd-kit/sortable'
+import { CSS } from '@dnd-kit/utilities'
 
 interface Props {
-  id?: string
+  id: string
   formName: string
   title: string
   add?: boolean
-  ref?: RefObject<HTMLDivElement | null>
   onCancel?: () => void
   onCreateInput?: (inputId: string) => void
   onRenameInput?: (newId: string) => void
@@ -27,7 +28,6 @@ export const WorkbenchCard = ({
   id,
   title,
   add = false,
-  ref,
   onCancel,
   onCreateInput,
   onRenameInput,
@@ -46,9 +46,23 @@ export const WorkbenchCard = ({
     onRenameInput?.(newId)
   }
 
+  const { attributes, listeners, setNodeRef, transform, transition } =
+    useSortable({ id: id })
+
+  const style = {
+    transition,
+    transform: CSS.Translate.toString(transform),
+  }
+
   // RENDER
   return (
-    <div ref={ref} className={styles.workbenchCard}>
+    <div
+      ref={setNodeRef}
+      {...attributes}
+      {...listeners}
+      className={styles.workbenchCard}
+      style={style}
+    >
       {/* header */}
       <div className={styles.workbenchCard__header}>
         {!add && (

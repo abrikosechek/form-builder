@@ -26,6 +26,11 @@ type Actions = {
     newInputId: string,
     newInput: TInput
   ) => void
+  reorderInput: (
+    formdId: string,
+    inputId: string,
+    secondInputId: string
+  ) => void
 }
 
 type Store = State & Actions
@@ -196,6 +201,39 @@ export const useInputsStore = create<Store>()(
               ...otherInputs,
               [newInputId]: newInputValue,
             },
+            inputsOrder: newInputsOrder,
+          },
+        },
+      })
+      get().saveInputs()
+    },
+
+    reorderInput: (formId, inputId, secondInputId) => {
+      const state = get()
+
+      if (inputId === secondInputId) return
+
+      const formInputsOrder = state.inputs[formId]?.inputsOrder
+      if (!formInputsOrder)
+        throw new Error(`Form with id "${formId}" does not exist!`)
+
+      const fromIndex = formInputsOrder.indexOf(inputId)
+      const toIndex = formInputsOrder.indexOf(secondInputId)
+
+      if (fromIndex === -1)
+        throw new Error(`Input with id "${inputId}" does not exist!`)
+      if (toIndex === -1)
+        throw new Error(`Input with id "${secondInputId}" does not exist!`)
+
+      let newInputsOrder = structuredClone(formInputsOrder)
+      newInputsOrder.splice(fromIndex, 1)
+      newInputsOrder.splice(toIndex, 0, inputId)
+
+      set({
+        inputs: {
+          ...state.inputs,
+          [formId]: {
+            ...state.inputs[formId],
             inputsOrder: newInputsOrder,
           },
         },

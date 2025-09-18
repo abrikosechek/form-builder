@@ -1,6 +1,6 @@
 import styles from './FormPage.module.scss'
 import pageSectionStyles from '../styles/page-section.module.scss'
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { CodeIcon } from '@radix-ui/react-icons'
 import { useParams } from 'react-router'
 import { NoInputs } from './NoInputs'
@@ -9,27 +9,59 @@ import { WorkbenchCard, WorkbenchCardContent } from './WorkbenchCard'
 import { FormPreview } from './FormPreview'
 import { componentsCardsList } from '../consts'
 import { ExportFormModal } from '@/modals/ExportForm'
-import { useFormsStore } from '@/entities/Forms'
 import { useInputsStore } from '@/entities/Inputs'
 import { useModalStore } from '@/shared/model'
-import type { InputTypes, TInput } from '@/shared/types/inputs'
-import { useClickOutside } from '@/shared/hooks'
+import type { InputTypes } from '@/shared/types/inputs'
 import { Button } from '@/shared/ui'
-import { closestCorners, DndContext } from '@dnd-kit/core'
-import { SortableContext } from '@dnd-kit/sortable'
+import { closestCorners, DndContext, DragEndEvent } from '@dnd-kit/core'
+import { SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable'
 
 export const FormPage = () => {
   let { pageFormName } = useParams()
-  const { formById } = useFormsStore()
-  const { addInput, removeInput, editInput, inputsByForm } = useInputsStore()
-  const { setModal } = useModalStore()
 
-  const pageForm = formById(pageFormName || '')
-  const formInputs = inputsByForm(pageFormName || '')
+  const { addInput, removeInput, editInput, inputsByForm, reorderInput } =
+    useInputsStore()
+  const { setModal } = useModalStore()
 
   const [newInputCardState, setNewInputCardState] = useState<null | InputTypes>(
     null
   )
+  const [componentsLibInput, setComponentsLibInput] = useState('')
+
+  const formInputs = inputsByForm(pageFormName || '')
+
+  useEffect(() => {
+    const handleEscDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape' && newInputCardState)
+        setNewInputCardState(null)
+    }
+
+    window.addEventListener('keydown', handleEscDown)
+    return () => window.removeEventListener('keydown', handleEscDown)
+  }, [newInputCardState])
+
+  const componentsLibFiltered = useMemo(() => {
+    const searchInputNormalized = componentsLibInput
+      .replaceAll(' ', '')
+      .toLowerCase()
+    let result = [...componentsCardsList]
+
+    result = result.filter((component) =>
+      component.type
+        .replaceAll(' ', '')
+        .toLowerCase()
+        .includes(searchInputNormalized)
+    )
+
+    return result
+  }, [componentsLibInput, componentsCardsList])
+
+  if (!pageFormName) {
+    return <h1>Form not found</h1>
+  }
+  if (!formInputs) {
+    return <h1>Can't load form input</h1>
+  }
 
   const createNewInput = (id: string) => {
     if (!pageFormName) {
@@ -48,38 +80,16 @@ export const FormPage = () => {
       console.error(error)
     }
   }
-  const newInputCardEl = useRef(null)
-  useClickOutside(newInputCardEl, () => setNewInputCardState(null))
 
-  useEffect(() => {
-    const handleEscDown = (event: KeyboardEvent) => {
-      if (event.key === 'Escape' && newInputCardState)
-        setNewInputCardState(null)
-    }
+  const handleDragEnd = (event: DragEndEvent) => {
+    const { active, over } = event
 
-    window.addEventListener('keydown', handleEscDown)
-    return () => window.removeEventListener('keydown', handleEscDown)
-  }, [newInputCardState])
+    if (!over) return
+    if (active.id === over.id) return
 
-  const [componentsLibInput, setComponentsLibInput] = useState('')
-  const componentsLibFiltered = useMemo(() => {
-    const searchInputNormalized = componentsLibInput
-      .replaceAll(' ', '')
-      .toLowerCase()
-    let result = [...componentsCardsList]
+    if (typeof active.id !== 'string' || typeof over.id !== 'string') return
 
-    result = result.filter((component) =>
-      component.type
-        .replaceAll(' ', '')
-        .toLowerCase()
-        .includes(searchInputNormalized)
-    )
-
-    return result
-  }, [componentsLibInput, componentsCardsList])
-
-  if (!pageForm || !formInputs) {
-    return <h1>No such form</h1>
+    reorderInput(pageFormName, active.id, over.id)
   }
 
   return (
@@ -87,7 +97,7 @@ export const FormPage = () => {
       {/* components lib */}
       <section className={styles.components}>
         <h2
-          className={` ${pageSectionStyles['page-section__title']} ${styles.components__title}`}
+          className={`${pageSectionStyles['page-section__title']} ${styles.components__title}`}
         >
           Components
         </h2>
@@ -112,69 +122,66 @@ export const FormPage = () => {
       </section>
 
       {/* workbench */}
-      <DndContext>
-        <section className={styles.workbench}>
-          {formInputs.length === 0 && !newInputCardState ? (
-            <NoInputs />
-          ) : (
-            <>
-              <div className={styles.workbench__list}>
-                {/* form inputs */}
-                <DndContext collisionDetection={closestCorners}>
-                  <SortableContext>
-                    {formInputs.map((input) => (
-                      <WorkbenchCard
-                        key={input.id}
-                        formName={pageFormName || ''}
-                        title={input.input.type}
-                        id={input.id}
-                        onDelete={() =>
-                          removeInput(pageFormName || '', input.id)
-                        }
-                        onRenameInput={(newId) =>
-                          editInput(
-                            pageFormName || '',
-                            input.id,
-                            newId,
-                            input.input
-                          )
-                        }
-                      >
-                        <WorkbenchCardContent {...input.input} />
-                      </WorkbenchCard>
-                    ))}
-                  </SortableContext>
-                </DndContext>
-
-                {/* add form input */}
-                {newInputCardState && (
-                  <WorkbenchCard
-                    add
-                    formName={pageFormName || ''}
-                    title={newInputCardState}
-                    ref={newInputCardEl}
-                    onCreateInput={(id) => createNewInput(id)}
-                    onCancel={() => setNewInputCardState(null)}
-                  />
-                )}
-              </div>
-
-              <div className={styles.workbench__footer}>
-                <Button
-                  onClick={() =>
-                    setModal({
-                      el: <ExportFormModal formId={pageFormName || ''} />,
-                    })
-                  }
+      <section className={styles.workbench}>
+        {Object.keys(formInputs).length === 0 && !newInputCardState ? (
+          <NoInputs />
+        ) : (
+          <>
+            <div className={styles.workbench__list}>
+              {/* form inputs */}
+              <DndContext
+                onDragEnd={handleDragEnd}
+                collisionDetection={closestCorners}
+              >
+                <SortableContext
+                  items={formInputs}
+                  strategy={verticalListSortingStrategy}
                 >
-                  Export
-                  <CodeIcon />
-                </Button>
-              </div>
-            </>
-          )}
-        </section>
-      </DndContext>
+                  {formInputs.map((input) => (
+                    <WorkbenchCard
+                      key={input.id}
+                      formName={pageFormName}
+                      title={input.input.type}
+                      id={input.id}
+                      onDelete={() => removeInput(pageFormName, input.id)}
+                      onRenameInput={(newId) =>
+                        editInput(pageFormName, input.id, newId, input.input)
+                      }
+                    >
+                      <WorkbenchCardContent {...input.input} />
+                    </WorkbenchCard>
+                  ))}
+                </SortableContext>
+              </DndContext>
+
+              {/* add form input */}
+              {newInputCardState && (
+                <WorkbenchCard
+                  id="add_new_card-IDIDID"
+                  add
+                  formName={pageFormName}
+                  title={newInputCardState}
+                  onCreateInput={(id) => createNewInput(id)}
+                  onCancel={() => setNewInputCardState(null)}
+                />
+              )}
+            </div>
+
+            <div className={styles.workbench__footer}>
+              <Button
+                onClick={() =>
+                  setModal({
+                    el: <ExportFormModal formId={pageFormName} />,
+                  })
+                }
+              >
+                Export
+                <CodeIcon />
+              </Button>
+            </div>
+          </>
+        )}
+      </section>
 
       {/* form preview */}
       <FormPreview inputs={formInputs} />
