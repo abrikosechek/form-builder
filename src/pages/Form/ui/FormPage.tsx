@@ -13,22 +13,29 @@ import { useInputsStore } from '@/entities/Inputs'
 import { useModalStore } from '@/shared/model'
 import type { InputTypes } from '@/shared/types/inputs'
 import { Button } from '@/shared/ui'
-import { closestCorners, DndContext, DragEndEvent } from '@dnd-kit/core'
+import {
+  closestCorners,
+  DndContext,
+  DragEndEvent,
+  MouseSensor,
+  TouchSensor,
+  useSensor,
+  useSensors,
+} from '@dnd-kit/core'
 import { SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable'
 
 export const FormPage = () => {
   let { pageFormName } = useParams()
-
   const { addInput, removeInput, editInput, inputsByForm, reorderInput } =
     useInputsStore()
   const { setModal } = useModalStore()
+
+  const formInputs = inputsByForm(pageFormName || '')
 
   const [newInputCardState, setNewInputCardState] = useState<null | InputTypes>(
     null
   )
   const [componentsLibInput, setComponentsLibInput] = useState('')
-
-  const formInputs = inputsByForm(pageFormName || '')
 
   useEffect(() => {
     const handleEscDown = (event: KeyboardEvent) => {
@@ -55,6 +62,8 @@ export const FormPage = () => {
 
     return result
   }, [componentsLibInput, componentsCardsList])
+
+  const sensors = useSensors(useSensor(MouseSensor), useSensor(TouchSensor))
 
   if (!pageFormName) {
     return <h1>Form not found</h1>
@@ -130,8 +139,9 @@ export const FormPage = () => {
             <div className={styles.workbench__list}>
               {/* form inputs */}
               <DndContext
-                onDragEnd={handleDragEnd}
                 collisionDetection={closestCorners}
+                sensors={sensors}
+                onDragEnd={handleDragEnd}
               >
                 <SortableContext
                   items={formInputs}

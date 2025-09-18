@@ -56,17 +56,15 @@ export const WorkbenchCard = ({
 
   // RENDER
   return (
-    <div
-      ref={setNodeRef}
-      {...attributes}
-      {...listeners}
-      className={styles.workbenchCard}
-      style={style}
-    >
+    <div ref={setNodeRef} className={styles.workbenchCard} style={style}>
       {/* header */}
       <div className={styles.workbenchCard__header}>
         {!add && (
-          <div className={styles.workbenchCard__drag}>
+          <div
+            {...listeners}
+            {...attributes}
+            className={styles.workbenchCard__drag}
+          >
             <HamburgerMenuIcon />
           </div>
         )}

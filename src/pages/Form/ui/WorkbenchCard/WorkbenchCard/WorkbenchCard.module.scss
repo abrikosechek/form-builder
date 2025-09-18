@@ -28,6 +28,7 @@
     background: var(--text);
     border-radius: 0 0 8px 8px;
     cursor: grab;
+    touch-action: none;
 
     &:active {
       cursor: grabbing;
