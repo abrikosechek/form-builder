@@ -1,5 +1,5 @@
 import styles from './WorkbenchCard.module.scss'
-import { ReactNode, RefObject, useState } from 'react'
+import { ReactNode, useState } from 'react'
 import {
   Cross1Icon,
   HamburgerMenuIcon,
@@ -7,7 +7,7 @@ import {
   TrashIcon,
 } from '@radix-ui/react-icons'
 import { WorkbenchCardId } from '../WorkbenchCardId'
-import { EditInputParamsModal } from '@/modals/EditInputParams'
+import { EditInputParamsModal } from '@/features/InputCreation/ui/EditInputParamsModal'
 import { useModalStore } from '@/shared/model'
 import { useSortable } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'

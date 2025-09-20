@@ -2,7 +2,7 @@ import styles from './NoForms.module.scss'
 import { Button } from '@/shared/ui'
 import { PlusIcon } from '@radix-ui/react-icons'
 import { useModalStore } from '@/shared/model'
-import { CreateFormModal } from '@/modals/CreateForm'
+import { CreateFormModal } from '@/features/FormCreation'
 
 export const NoForms = () => {
   const setModal = useModalStore((state) => state.setModal)
@@ -14,9 +14,9 @@ export const NoForms = () => {
   }
 
   return (
-    <div className={styles.noForms}>
-      <p className={styles.noForms__title}>No forms</p>
-      <p className={styles.noForms__description}>
+    <div className={styles['no-forms']}>
+      <p className={styles['no-forms__title']}>No forms</p>
+      <p className={styles['no-forms__description']}>
         Create new form to try our amazing FormBuilder
       </p>
       <Button onClick={() => openCreateFormModal()}>

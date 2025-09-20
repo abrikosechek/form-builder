@@ -1,7 +1,7 @@
 import { useInputsStore } from '@/entities/Inputs'
 import { Modal } from '@/shared/ui'
 import { Code } from '@/shared/ui/Code'
-import { generateFormText } from './utils'
+import { generateFormText } from '../../utils'
 
 interface Props {
   formId: string

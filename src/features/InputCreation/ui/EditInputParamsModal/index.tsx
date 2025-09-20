@@ -1,6 +1,6 @@
 import styles from './index.module.scss'
 import { useRef, useState } from 'react'
-import { OptionBadge } from './ui'
+import { OptionBadge } from './OptionsBadge'
 import { useInputsStore } from '@/entities/Inputs'
 import {
   inputHasOptions,

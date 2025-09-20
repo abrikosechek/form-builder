@@ -1,7 +1,7 @@
 import styles from './RootLayout.module.scss'
 import { Outlet } from 'react-router'
 import { Header } from '@/shared/ui'
-import { Aside } from '@/features/Aside'
+import { Aside } from '@/widgets/Aside'
 import { useFormsStore } from '@/entities/Forms'
 import { useEffect } from 'react'
 import { ModalProvider } from '@/app/providers/ModalProvider'
