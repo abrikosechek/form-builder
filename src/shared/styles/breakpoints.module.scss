@@ -3,6 +3,7 @@
 $breakpoints: (
   'xxl': 1920px,
   'xl': 1600px,
+  'md': 1470px,
 ) !default;
 
 @mixin respond-above($breakpoint) {

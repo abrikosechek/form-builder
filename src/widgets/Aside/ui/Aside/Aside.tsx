@@ -1,5 +1,5 @@
 import styles from './Aside.module.scss'
-import React from 'react'
+import { type ReactNode } from 'react'
 import { NavLink } from 'react-router'
 import { PlusIcon } from '@radix-ui/react-icons'
 import { CreateFormModal } from '@/features/FormCreation'
@@ -7,28 +7,15 @@ import { useFormsStore } from '@/entities/Forms'
 import { useModalStore } from '@/shared/model'
 import { Button } from '@/shared/ui'
 
-const AsideList = React.memo(function AsideList() {
+type Props = {
+  children: ReactNode
+}
+
+export const Aside = ({ children }: Props) => {
+  const { setModal } = useModalStore()
   const { orderedForms } = useFormsStore()
 
   const forms = orderedForms()
-
-  return (
-    <div className={styles.aside__list}>
-      {forms.map(([formKey]) => (
-        <NavLink
-          key={formKey}
-          className={styles.asideListItem}
-          to={`form/${formKey}`}
-        >
-          {formKey}
-        </NavLink>
-      ))}
-    </div>
-  )
-})
-
-export const Aside = () => {
-  const { setModal } = useModalStore()
 
   const openCreateFormModal = () => {
     setModal({
@@ -40,13 +27,22 @@ export const Aside = () => {
     <div className={`${styles.aside} container`}>
       <div className={styles.aside__header}>
         <p className={styles.aside__title}>Forms</p>
-
         <Button onClick={() => openCreateFormModal()}>
           <PlusIcon />
         </Button>
       </div>
 
-      <AsideList />
+      <div className={styles.aside__list}>
+        {forms.map(([formKey]) => (
+          <NavLink
+            key={formKey}
+            className={styles['aside-link']}
+            to={`form/${formKey}`}
+          >
+            {formKey}
+          </NavLink>
+        ))}
+      </div>
     </div>
   )
 }
