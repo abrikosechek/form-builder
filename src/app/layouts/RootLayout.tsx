@@ -1,6 +1,6 @@
 import styles from './RootLayout.module.scss'
 import { Outlet } from 'react-router'
-import { Header } from '@/shared/ui'
+import { Header } from '@/widgets/Header'
 import { Aside } from '@/widgets/Aside'
 import { useFormsStore } from '@/entities/Forms'
 import { useEffect } from 'react'
