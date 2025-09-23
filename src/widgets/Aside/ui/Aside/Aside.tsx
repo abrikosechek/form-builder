@@ -1,5 +1,4 @@
 import styles from './Aside.module.scss'
-import { type ReactNode } from 'react'
 import { NavLink } from 'react-router'
 import { PlusIcon } from '@radix-ui/react-icons'
 import { CreateFormModal } from '@/features/FormCreation'
@@ -7,11 +6,7 @@ import { useFormsStore } from '@/entities/Forms'
 import { useModalStore } from '@/shared/model'
 import { Button } from '@/shared/ui'
 
-type Props = {
-  children: ReactNode
-}
-
-export const Aside = ({ children }: Props) => {
+export const Aside = () => {
   const { setModal } = useModalStore()
   const { orderedForms } = useFormsStore()
 
