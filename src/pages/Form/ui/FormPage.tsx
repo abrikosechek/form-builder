@@ -1,13 +1,10 @@
 import styles from './FormPage.module.scss'
-import pageSectionStyles from '../styles/page-section.module.scss'
 import { useEffect, useMemo, useState } from 'react'
 import { CodeIcon } from '@radix-ui/react-icons'
 import { useParams } from 'react-router'
 import { NoInputs } from './NoInputs'
-import { ComponentCard } from './ComponentCard'
 import { WorkbenchCard, WorkbenchCardContent } from './WorkbenchCard'
 import { FormPreview } from './FormPreview'
-import { componentsCardsList } from '../consts'
 import { ExportFormModal } from '@/features/ExportForm/ui/ExportFormModal'
 import { useInputsStore } from '@/entities/Inputs'
 import { useModalStore } from '@/shared/model'
@@ -23,6 +20,7 @@ import {
   useSensors,
 } from '@dnd-kit/core'
 import { SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable'
+import { ComponentsLibrary } from './ComponentsLibrary'
 
 export const FormPage = () => {
   let { pageFormName } = useParams()
@@ -35,7 +33,6 @@ export const FormPage = () => {
   const [newInputCardState, setNewInputCardState] = useState<null | InputTypes>(
     null
   )
-  const [componentsLibInput, setComponentsLibInput] = useState('')
 
   useEffect(() => {
     const handleEscDown = (event: KeyboardEvent) => {
@@ -46,22 +43,6 @@ export const FormPage = () => {
     window.addEventListener('keydown', handleEscDown)
     return () => window.removeEventListener('keydown', handleEscDown)
   }, [newInputCardState])
-
-  const componentsLibFiltered = useMemo(() => {
-    const searchInputNormalized = componentsLibInput
-      .replaceAll(' ', '')
-      .toLowerCase()
-    let result = [...componentsCardsList]
-
-    result = result.filter((component) =>
-      component.type
-        .replaceAll(' ', '')
-        .toLowerCase()
-        .includes(searchInputNormalized)
-    )
-
-    return result
-  }, [componentsLibInput, componentsCardsList])
 
   const sensors = useSensors(useSensor(MouseSensor), useSensor(TouchSensor))
 
@@ -104,31 +85,7 @@ export const FormPage = () => {
   return (
     <div className={styles.page}>
       {/* components lib */}
-      <section className={styles.components}>
-        <h2
-          className={`${pageSectionStyles['page-section__title']} ${styles.components__title}`}
-        >
-          Components
-        </h2>
-        <input
-          className={styles.components__inputSearch}
-          type="text"
-          placeholder="Search..."
-          value={componentsLibInput}
-          onChange={(e) => setComponentsLibInput(e.target.value)}
-        />
-        <div className={styles.components__list}>
-          {componentsLibFiltered.map((component) => (
-            <ComponentCard
-              key={component.type}
-              name={component.type}
-              onClick={() => setNewInputCardState(component.type)}
-            >
-              {component.content}
-            </ComponentCard>
-          ))}
-        </div>
-      </section>
+      <ComponentsLibrary onComponentSelect={setNewInputCardState} />
 
       {/* workbench */}
       <section className={styles.workbench}>
