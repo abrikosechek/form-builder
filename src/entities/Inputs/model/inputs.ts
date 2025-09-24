@@ -48,6 +48,8 @@ const computed = createComputed(
       const formInputs = state.inputs[formId]
       const formInputsList = formInputs?.inputs
 
+      console.log(formId)
+
       if (!formInputs) return undefined
 
       return formInputs.inputsOrder.map((inputId) => ({
@@ -99,6 +101,7 @@ export const useInputsStore = create<Store>()(
           },
         },
       })
+      get().saveInputs()
     },
 
     deleteInputsObject: (formId) => {
@@ -110,6 +113,7 @@ export const useInputsStore = create<Store>()(
       set({
         inputs,
       })
+      get().saveInputs()
     },
 
     addInput: (formId, inputId, inputType) => {
