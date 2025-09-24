@@ -1,11 +1,19 @@
 @use '@/shared/styles/breakpoints.module.scss' as *;
 
 .page {
-  display: grid;
-  grid-template-columns: 530px 1fr 400px;
+  position: relative;
   width: 100%;
   height: 100%;
   overflow: hidden;
+
+  &__inner {
+    position: relative;
+    display: grid;
+    grid-template-columns: 530px 1fr 400px;
+    width: 100%;
+    height: 100%;
+    transition: 0.5s;
+  }
 }
 
 .workbench {
@@ -38,13 +46,51 @@
     justify-content: center;
     gap: 12px;
     width: 100%;
-    padding: 20px;
+    height: 65px;
     border-top: 4px dashed var(--bg);
   }
 }
 
+.workbench-footer-tab {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  height: 100%;
+  padding: 4px 12px;
+  background: transparent;
+  border-style: solid;
+  border-color: var(--bg);
+  border-width: 0;
+  color: var(--text);
+  cursor: pointer;
+  transition: 0.2s;
+
+  &.border-left {
+    border-left-width: 3px;
+  }
+  &.border-right {
+    border-right-width: 3px;
+  }
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.05);
+  }
+
+  &__text {
+    font-size: 18px;
+    font-weight: 600;
+  }
+
+  &__icon {
+    width: 35px;
+    height: 35px;
+    fill: currentColor;
+  }
+}
+
 @include respond-below('xxl') {
-  .page {
+  .page__inner {
     grid-template-columns: 440px 1fr 350px;
   }
 
@@ -53,9 +99,32 @@
       gap: 16px;
       padding: 25px;
     }
+  }
+}
+
+@include respond-below('xl') {
+  .workbench {
+    &__footer {
+      height: 55px;
+    }
+  }
+}
+
+@include respond-below('md') {
+  .page__inner {
+    grid-template-columns: 100% 100% 100%;
+  }
+
+  .workbench {
+    border: none;
+
+    &__list {
+      gap: 16px;
+      padding: 25px;
+    }
 
     &__footer {
-      padding: 12px;
+      justify-content: space-between;
     }
   }
 }

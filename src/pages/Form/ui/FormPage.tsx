@@ -1,6 +1,11 @@
 import styles from './FormPage.module.scss'
 import { useEffect, useMemo, useState } from 'react'
-import { CodeIcon } from '@radix-ui/react-icons'
+import {
+  ArrowRightIcon,
+  CaretLeftIcon,
+  CaretRightIcon,
+  CodeIcon,
+} from '@radix-ui/react-icons'
 import { useParams } from 'react-router'
 import { NoInputs } from './NoInputs'
 import { WorkbenchCard, WorkbenchCardContent } from './WorkbenchCard'
@@ -21,12 +26,15 @@ import {
 } from '@dnd-kit/core'
 import { SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable'
 import { ComponentsLibrary } from './ComponentsLibrary'
+import { useWindowSize } from 'usehooks-ts'
+import { breakpoints } from '@/shared/consts'
 
 export const FormPage = () => {
   let { pageFormName } = useParams()
   const { addInput, removeInput, editInput, inputsByForm, reorderInput } =
     useInputsStore()
   const { setModal } = useModalStore()
+  const { width = 0 } = useWindowSize()
 
   const formInputs = inputsByForm(pageFormName || '')
 
@@ -45,6 +53,18 @@ export const FormPage = () => {
   }, [newInputCardState])
 
   const sensors = useSensors(useSensor(MouseSensor), useSensor(TouchSensor))
+
+  const [openedTab, setOpenedTab] = useState<number>(1)
+
+  const pageInnerMoveAmount = useMemo(
+    () => (width > breakpoints.md ? '0%' : `${-100 * openedTab}%`),
+    [openedTab]
+  )
+
+  const openNewInputCard = (inputType: InputTypes) => {
+    setNewInputCardState(inputType)
+    setOpenedTab(1)
+  }
 
   if (!pageFormName) {
     return <h1>Form not found</h1>
@@ -84,15 +104,21 @@ export const FormPage = () => {
 
   return (
     <div className={styles.page}>
-      {/* components lib */}
-      <ComponentsLibrary onComponentSelect={setNewInputCardState} />
+      <div
+        className={styles.page__inner}
+        style={{
+          left: pageInnerMoveAmount,
+        }}
+      >
+        {/* components lib */}
+        <ComponentsLibrary onComponentSelect={openNewInputCard} />
 
-      {/* workbench */}
-      <section className={styles.workbench}>
-        {Object.keys(formInputs).length === 0 && !newInputCardState ? (
-          <NoInputs />
-        ) : (
-          <>
+        {/* workbench */}
+        <section className={styles.workbench}>
+          {/* workbench content */}
+          {Object.keys(formInputs).length === 0 && !newInputCardState ? (
+            <NoInputs />
+          ) : (
             <div className={styles.workbench__list}>
               {/* form inputs */}
               <DndContext
@@ -107,9 +133,10 @@ export const FormPage = () => {
                   {formInputs.map((input) => (
                     <WorkbenchCard
                       key={input.id}
+                      id={input.id}
                       formName={pageFormName}
                       title={input.input.type}
-                      id={input.id}
+                      sortable
                       onDelete={() => removeInput(pageFormName, input.id)}
                       onRenameInput={(newId) =>
                         editInput(pageFormName, input.id, newId, input.input)
@@ -133,25 +160,52 @@ export const FormPage = () => {
                 />
               )}
             </div>
+          )}
 
-            <div className={styles.workbench__footer}>
-              <Button
-                onClick={() =>
-                  setModal({
-                    el: <ExportFormModal formId={pageFormName} />,
-                  })
-                }
+          {/* workbench footer */}
+          <div className={styles.workbench__footer}>
+            {width <= breakpoints.md && (
+              <div
+                className={`${styles['workbench-footer-tab']} ${styles['border-right']}`}
+                onClick={() => setOpenedTab(0)}
               >
-                Export
-                <CodeIcon />
-              </Button>
-            </div>
-          </>
-        )}
-      </section>
+                <CaretLeftIcon
+                  className={styles['workbench-footer-tab__icon']}
+                />
+                <p className={styles['workbench-footer-tab__text']}>
+                  Components
+                </p>
+              </div>
+            )}
 
-      {/* form preview */}
-      <FormPreview inputs={formInputs} />
+            <Button
+              onClick={() =>
+                setModal({
+                  el: <ExportFormModal formId={pageFormName} />,
+                })
+              }
+            >
+              Export
+              <CodeIcon />
+            </Button>
+
+            {width <= breakpoints.md && (
+              <div
+                className={`${styles['workbench-footer-tab']} ${styles['border-left']}`}
+                onClick={() => setOpenedTab(2)}
+              >
+                <p className={styles['workbench-footer-tab__text']}>Preview</p>
+                <CaretRightIcon
+                  className={styles['workbench-footer-tab__icon']}
+                />
+              </div>
+            )}
+          </div>
+        </section>
+
+        {/* form preview */}
+        <FormPreview inputs={formInputs} />
+      </div>
     </div>
   )
 }

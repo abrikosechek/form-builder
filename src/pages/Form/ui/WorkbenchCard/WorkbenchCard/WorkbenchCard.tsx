@@ -12,7 +12,7 @@ import { useModalStore } from '@/shared/model'
 import { useSortable } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
 
-interface Props {
+type Props = {
   id: string
   formName: string
   title: string
@@ -22,6 +22,7 @@ interface Props {
   onRenameInput?: (newId: string) => void
   onDelete?: () => void
   children?: ReactNode
+  sortable?: boolean
 }
 
 export const WorkbenchCard = ({
@@ -34,6 +35,7 @@ export const WorkbenchCard = ({
   onDelete,
   children,
   formName,
+  sortable = false,
 }: Props) => {
   // zustand
   const { setModal } = useModalStore()
@@ -56,13 +58,17 @@ export const WorkbenchCard = ({
 
   // RENDER
   return (
-    <div ref={setNodeRef} className={styles.workbenchCard} style={style}>
+    <div
+      ref={sortable ? setNodeRef : undefined}
+      className={styles.workbenchCard}
+      style={style}
+    >
       {/* header */}
       <div className={styles.workbenchCard__header}>
         {!add && (
           <div
-            {...listeners}
-            {...attributes}
+            {...(sortable && listeners)}
+            {...(sortable && attributes)}
             className={styles.workbenchCard__drag}
           >
             <HamburgerMenuIcon />

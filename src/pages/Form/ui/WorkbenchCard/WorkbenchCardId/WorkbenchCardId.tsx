@@ -1,5 +1,5 @@
 import styles from './WorkbenchCardId.module.scss'
-import { useState, useRef, useEffect } from 'react'
+import { useState, useRef } from 'react'
 import { CheckIcon, Cross1Icon, Pencil2Icon } from '@radix-ui/react-icons'
 
 interface Props {
@@ -22,10 +22,6 @@ export const WorkbenchCardId = ({
   if (isEdit) {
     const [input, setInput] = useState(id || '')
     const inputEl = useRef<HTMLInputElement>(null)
-
-    useEffect(() => {
-      inputEl.current?.focus()
-    }, [isEdit])
 
     const submit = () => {
       const newIdNormalized = input.replaceAll(' ', '')
