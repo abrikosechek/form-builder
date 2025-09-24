@@ -167,20 +167,6 @@ export const FormPage = () => {
 
           {/* workbench footer */}
           <div className={styles.workbench__footer}>
-            {width <= breakpoints.md && (
-              <div
-                className={`${styles['workbench-footer-tab']} ${styles['border-right']}`}
-                onClick={() => setOpenedTab(0)}
-              >
-                <CaretLeftIcon
-                  className={styles['workbench-footer-tab__icon']}
-                />
-                <p className={styles['workbench-footer-tab__text']}>
-                  Components
-                </p>
-              </div>
-            )}
-
             <Button
               onClick={() =>
                 setModal({
@@ -193,14 +179,30 @@ export const FormPage = () => {
             </Button>
 
             {width <= breakpoints.md && (
-              <div
-                className={`${styles['workbench-footer-tab']} ${styles['border-left']}`}
-                onClick={() => setOpenedTab(2)}
-              >
-                <p className={styles['workbench-footer-tab__text']}>Preview</p>
-                <CaretRightIcon
-                  className={styles['workbench-footer-tab__icon']}
-                />
+              <div className={styles['workbench__footer-tabs']}>
+                <div
+                  className={`${styles['workbench-footer-tab']} ${styles['border-right']}`}
+                  onClick={() => setOpenedTab(0)}
+                >
+                  <CaretLeftIcon
+                    className={styles['workbench-footer-tab__icon']}
+                  />
+                  <p className={styles['workbench-footer-tab__text']}>
+                    Components
+                  </p>
+                </div>
+
+                <div
+                  className={`${styles['workbench-footer-tab']} ${styles['border-left']}`}
+                  onClick={() => setOpenedTab(2)}
+                >
+                  <p className={styles['workbench-footer-tab__text']}>
+                    Preview
+                  </p>
+                  <CaretRightIcon
+                    className={styles['workbench-footer-tab__icon']}
+                  />
+                </div>
               </div>
             )}
           </div>
