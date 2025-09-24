@@ -28,13 +28,14 @@
   background: transparent;
   border: none;
   border-radius: 9999px;
-  box-shadow: 0 0 12px rgba(0, 0, 0, 0.6);
+  box-shadow: 0 0 16px rgba(0, 0, 0, 0.4);
   color: var(--text);
-  transition: 0.2s;
   cursor: pointer;
+  overflow: hidden;
+  transition: 0.2s;
 
   &:hover {
-    box-shadow: 0 0 16px rgba(0, 0, 0, 0.8);
+    box-shadow: 0 0 16px rgba(0, 0, 0, 0.6);
   }
 
   &__text {
