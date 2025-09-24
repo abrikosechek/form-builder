@@ -1,15 +1,21 @@
 import styles from './ComponentsLibrary.module.scss'
 import pageSectionStyles from '../../../styles/page-section.module.scss'
 import { useState, useMemo } from 'react'
+import { useWindowSize } from 'usehooks-ts'
 import { ComponentCard } from '../ComponentCard'
+import { CloseButton } from '../../CloseButton'
 import { componentsCardsList } from '../../../consts'
 import { InputTypes } from '@/shared/types/inputs'
+import { breakpoints } from '@/shared/consts'
 
 type Props = {
   onComponentSelect?: (componentType: InputTypes) => void
+  onCloseTab?: () => void
 }
 
-export const ComponentsLibrary = ({ onComponentSelect }: Props) => {
+export const ComponentsLibrary = ({ onComponentSelect, onCloseTab }: Props) => {
+  const { width = 0 } = useWindowSize()
+
   const [componentsLibInput, setComponentsLibInput] = useState('')
 
   const componentsLibFiltered = useMemo(() => {
@@ -30,6 +36,10 @@ export const ComponentsLibrary = ({ onComponentSelect }: Props) => {
 
   return (
     <section className={styles.components}>
+      {width <= breakpoints.md && (
+        <CloseButton onClick={() => onCloseTab?.()} />
+      )}
+
       <h2
         className={`${pageSectionStyles['page-section__title']} ${styles.components__title}`}
       >

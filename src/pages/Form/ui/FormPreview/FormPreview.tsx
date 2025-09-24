@@ -1,6 +1,8 @@
 import styles from './FormPreview.module.scss'
 import pageSectionStyles from '../../styles/page-section.module.scss'
 import { useState, useEffect } from 'react'
+import { useWindowSize } from 'usehooks-ts'
+import { CloseButton } from '../CloseButton'
 import { TInput } from '@/shared/types/inputs'
 import {
   Input,
@@ -10,15 +12,19 @@ import {
   Select,
   SelectItem,
 } from '@/shared/ui'
+import { breakpoints } from '@/shared/consts'
 
 type Props = {
   inputs: Array<{ id: string; input: TInput }>
+  onCloseTab?: () => void
 }
 
-export const FormPreview = ({ inputs }: Props) => {
+export const FormPreview = ({ inputs, onCloseTab }: Props) => {
   const [inputsList, setInputsList] = useState<
     Array<{ id: string; input: TInput }>
   >(structuredClone(inputs))
+
+  const { width = 0 } = useWindowSize()
 
   const updateInputValue = (inputId: string, value: string | boolean) => {
     let inputToUpdateId = inputsList.findIndex((input) => input.id === inputId)
@@ -37,6 +43,10 @@ export const FormPreview = ({ inputs }: Props) => {
 
   return (
     <section className={styles.formPreview}>
+      {width <= breakpoints.md && (
+        <CloseButton onClick={() => onCloseTab?.()} />
+      )}
+
       <h2
         className={` ${pageSectionStyles['page-section__title']} ${styles.formPreview__title}`}
       >

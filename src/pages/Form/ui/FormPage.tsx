@@ -111,7 +111,10 @@ export const FormPage = () => {
         }}
       >
         {/* components lib */}
-        <ComponentsLibrary onComponentSelect={openNewInputCard} />
+        <ComponentsLibrary
+          onComponentSelect={openNewInputCard}
+          onCloseTab={() => setOpenedTab(1)}
+        />
 
         {/* workbench */}
         <section className={styles.workbench}>
@@ -204,7 +207,7 @@ export const FormPage = () => {
         </section>
 
         {/* form preview */}
-        <FormPreview inputs={formInputs} />
+        <FormPreview inputs={formInputs} onCloseTab={() => setOpenedTab(1)} />
       </div>
     </div>
   )

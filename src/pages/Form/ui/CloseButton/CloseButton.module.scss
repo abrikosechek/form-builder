@@ -1,0 +1,28 @@
+.close-button {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 35px;
+  height: 35px;
+  padding: 4px;
+  border: none;
+  background: var(--bg-light);
+  border-radius: 999px;
+  box-shadow: 0 0 12px rgba(0, 0, 0, 0.5);
+  cursor: pointer;
+  transition: 0.2s;
+
+  &:hover {
+    box-shadow: 0 0 12px rgba(0, 0, 0, 0.8);
+  }
+
+  &__icon {
+    width: 20px;
+    height: 20px;
+    stroke: var(--text);
+  }
+}

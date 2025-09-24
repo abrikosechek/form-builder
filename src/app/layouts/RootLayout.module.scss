@@ -46,3 +46,10 @@
     padding: 8px;
   }
 }
+
+@include respond-below('md') {
+  .layout {
+    gap: 4px;
+    padding: 4px;
+  }
+}
