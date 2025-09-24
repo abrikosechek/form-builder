@@ -36,3 +36,13 @@
     grid-template-columns: 260px 1fr;
   }
 }
+
+@include respond-below('md') {
+  .layout {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      'header'
+      'main';
+    padding: 8px;
+  }
+}

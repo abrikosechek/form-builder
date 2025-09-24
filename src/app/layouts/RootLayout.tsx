@@ -6,10 +6,14 @@ import { useFormsStore } from '@/entities/Forms'
 import { useEffect } from 'react'
 import { ModalProvider } from '@/app/providers/ModalProvider'
 import { useInputsStore } from '@/entities/Inputs'
+import { useWindowSize } from 'usehooks-ts'
+import { breakpoints } from '@/shared/consts'
 
 export const RootLayout = () => {
   const { loadForms } = useFormsStore()
   const { loadInputs } = useInputsStore()
+
+  const { width = 0 } = useWindowSize()
 
   useEffect(() => {
     loadForms()
@@ -20,7 +24,7 @@ export const RootLayout = () => {
     <>
       <div className={styles.layout}>
         <Header />
-        <Aside />
+        {width > breakpoints.md && <Aside />}
         <main className={`${styles.main} container`}>
           <Outlet />
         </main>

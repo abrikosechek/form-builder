@@ -69,7 +69,7 @@ export const FormPage = () => {
     return <h1>Form not found</h1>
   }
   if (!formInputs) {
-    return <h1>Can't load form input</h1>
+    return <h1>Can't load form inputs</h1>
   }
 
   const createNewInput = (id: string) => {
