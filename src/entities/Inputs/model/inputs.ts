@@ -48,8 +48,6 @@ const computed = createComputed(
       const formInputs = state.inputs[formId]
       const formInputsList = formInputs?.inputs
 
-      console.log(formId)
-
       if (!formInputs) return undefined
 
       return formInputs.inputsOrder.map((inputId) => ({

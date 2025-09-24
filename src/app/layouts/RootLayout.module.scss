@@ -37,7 +37,7 @@
   }
 }
 
-@include respond-below('md') {
+@include respond-below('lg') {
   .layout {
     grid-template-columns: 1fr;
     grid-template-areas:

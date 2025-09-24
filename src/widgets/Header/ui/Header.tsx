@@ -17,7 +17,7 @@ export const Header = () => {
         FormBuilder
       </Link>
 
-      {width <= breakpoints.md && (
+      {width <= breakpoints.lg && (
         <button
           className={styles['header-menu-button']}
           onClick={() =>

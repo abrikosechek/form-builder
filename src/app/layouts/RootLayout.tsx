@@ -24,7 +24,7 @@ export const RootLayout = () => {
     <>
       <div className={styles.layout}>
         <Header />
-        {width > breakpoints.md && <Aside />}
+        {width > breakpoints.lg && <Aside />}
         <main className={`${styles.main} container`}>
           <Outlet />
         </main>

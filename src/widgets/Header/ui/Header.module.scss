@@ -62,7 +62,7 @@
   }
 }
 
-@include respond-below('md') {
+@include respond-below('lg') {
   .header {
     padding: 8px 16px;
 
