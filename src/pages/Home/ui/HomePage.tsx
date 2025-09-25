@@ -1,5 +1,8 @@
+import { useFormsStore } from '@/entities/Forms'
 import { NoForms } from './NoForms'
 
 export const HomePage = () => {
-  return <NoForms />
+  const { orderedForms } = useFormsStore()
+
+  return <>{orderedForms().length ? <h1>Main Page</h1> : <NoForms />}</>
 }
