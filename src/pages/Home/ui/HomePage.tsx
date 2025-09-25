@@ -1,4 +1,4 @@
-import { NoForms } from '@/features/NoForms'
+import { NoForms } from './NoForms'
 
 export const HomePage = () => {
   return <NoForms />
