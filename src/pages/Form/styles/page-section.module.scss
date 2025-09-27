@@ -6,7 +6,7 @@
   font-weight: 500;
 }
 
-@include respond-below("xl") {
+@include respond-below('xl') {
   .page-section__title {
     text-align: center;
     font-size: 26px;

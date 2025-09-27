@@ -1,4 +1,4 @@
-import styles from './ComponentCard.module.scss'
+import styles from './InputComponentCard.module.scss'
 import type { MouseEvent, ReactNode } from 'react'
 import { PlusIcon, StackIcon } from '@radix-ui/react-icons'
 
@@ -8,7 +8,7 @@ interface Props {
   children: ReactNode
 }
 
-export const ComponentCard = ({ name, onClick, children }: Props) => {
+export const InputComponentCard = ({ name, onClick, children }: Props) => {
   return (
     <div className={styles.componentCard} onClick={onClick}>
       <button className={styles.componentCard__buttonAdd} onClick={onClick}>

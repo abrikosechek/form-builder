@@ -68,7 +68,7 @@
   }
 }
 
-@include respond-below("xl") {
+@include respond-below('xl') {
   .componentCard {
     position: relative;
     height: 165px;

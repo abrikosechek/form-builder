@@ -2,7 +2,7 @@ import styles from './ComponentsLibrary.module.scss'
 import pageSectionStyles from '../../../styles/page-section.module.scss'
 import { useState, useMemo } from 'react'
 import { useWindowSize } from 'usehooks-ts'
-import { ComponentCard } from '../ComponentCard'
+import { InputComponentCard } from '@/shared/ui'
 import { CloseButton } from '../../CloseButton'
 import { componentsCardsList } from '../../../consts'
 import { InputTypes } from '@/shared/types/inputs'
@@ -54,13 +54,13 @@ export const ComponentsLibrary = ({ onComponentSelect, onCloseTab }: Props) => {
       />
       <div className={styles.components__list}>
         {componentsLibFiltered.map((component) => (
-          <ComponentCard
+          <InputComponentCard
             key={component.type}
             name={component.type}
             onClick={() => onComponentSelect?.(component.type)}
           >
             {component.content}
-          </ComponentCard>
+          </InputComponentCard>
         ))}
       </div>
     </section>
